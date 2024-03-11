@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screen/navigation/navigation.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
-        home: MyHomePage(),
+        home: Navigation(),
       ),
     );
   }
@@ -35,33 +36,8 @@ class MyApp extends StatelessWidget {
 //MyAppState xác định dữ liệu mà ứng dụng cần để hoạt động
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
-  //ai xem MyAppState đều được thông báo.
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
 }
 
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current; 
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Nhà hát Kịch Việt Nam'),
-          ElevatedButton(
-            onPressed: () {
-              appState.getNext(); 
-            },
-            child: Text('Bắt đầu'),
-          ),
-          ],),
-      ),
-    );
-  }
-}
+
+
