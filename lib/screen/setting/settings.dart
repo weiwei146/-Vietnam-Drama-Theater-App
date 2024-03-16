@@ -12,7 +12,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Settings'),
+      child: Text('Trang cài đặt'),
     );
   }
 }

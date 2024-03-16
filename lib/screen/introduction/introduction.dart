@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 
 
-class Introduction extends StatefulWidget {
+class Introduction extends StatelessWidget {
   const Introduction({super.key});
 
   @override
-  State<Introduction> createState() => _IntroductionState();
-}
-
-class _IntroductionState extends State<Introduction> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(""),
+    // var appState = context.watch<_HomeState>();
+    // var pair = appState.current;
+
+    IconData icon;
+    // if (appState.favorites.contains(pair)) {
+    //   icon = Icons.favorite;
+    // } else {
+    //   icon = Icons.favorite_border;
+    // }
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
     );
   }
+
 }
+
