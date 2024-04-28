@@ -40,6 +40,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         _controller.play();
       });
     }
+
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -67,20 +69,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           }
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     setState(() {
-      //       if (_controller.value.isPlaying) {
-      //         _controller.pause();
-      //       } else {
-      //         _controller.play();
-      //       }
-      //     });
-      //   },
-      //   child: Icon(
-      //     _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-      //   ),
-      // ),
     );
   }
 }
