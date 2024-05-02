@@ -12,14 +12,14 @@ class FlashyTabBar extends StatelessWidget {
     this.selectedIndex = 0,
     this.height = 60,
     this.showElevation = true,
-    this.iconSize = 30,
+    this.iconSize = 20,
     this.backgroundColor,
     this.animationDuration = const Duration(milliseconds: 170),
     this.animationCurve = Curves.linear,
     this.shadows = const [
       BoxShadow(
         color: Colors.black12,
-        blurRadius: 10,
+        blurRadius: 3,
       ),
     ],
     required this.items,

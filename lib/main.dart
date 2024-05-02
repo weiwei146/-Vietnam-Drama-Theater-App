@@ -16,7 +16,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-//để tiện ích luôn được cập nhật.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

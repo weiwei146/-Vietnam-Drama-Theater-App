@@ -1,6 +1,7 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/introduction/home.dart';
+import 'package:namer_app/screen/schedule/schedule.dart';
 import 'package:namer_app/screen/setting/settings.dart';
 
 class Navigation extends StatefulWidget {
@@ -13,7 +14,7 @@ class NavigationState extends State<Navigation> {
 
   static List<WidgetBuilder> _widgetOptions = <WidgetBuilder>[
     (context) => Home(),
-    (context) => Home(),
+    (context) => Schedule(),
     (context) => Home(),
     (context) => Home(),
     (context) => Settings(),
@@ -26,8 +27,10 @@ class NavigationState extends State<Navigation> {
           child: _widgetOptions.elementAt(_selectedIndex)(context),
         ),
       bottomNavigationBar: FlashyTabBar(
+        animationCurve: Curves.linear,
         selectedIndex: _selectedIndex,
-        showElevation: true,
+        iconSize: 30,
+        showElevation: false, // use this to remove appBar's elevation
         onItemSelected: (index) => setState(() {
           _selectedIndex = index;
         }),
