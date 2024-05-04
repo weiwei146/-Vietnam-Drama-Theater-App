@@ -9,6 +9,7 @@ environment:
   sdk: ^3.1.1
 
 dependencies:
+  ffi: ^2.0.1
   flutter:
     sdk: flutter
 
@@ -16,9 +17,12 @@ dependencies:
   provider: ^6.0.0
   video_player: ^2.8.3
   custom_video_player: ^1.0.9
-  flashy_tab_bar2: ^0.0.2
+  flashy_tab_bar2: ^0.0.3
+  realm: ^2.2.0
+  mongo_dart: ^0.10.2
 
 dev_dependencies:
+  ffi: ^2.0.1
   flutter_test:
     sdk: flutter
 

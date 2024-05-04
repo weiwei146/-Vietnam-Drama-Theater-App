@@ -95,8 +95,8 @@ class FlashyTabBarItem {
   FlashyTabBarItem({
     required this.icon,
     required this.title,
-    this.activeColor = const Color(0xff272e81),
-    this.inactiveColor = const Color(0xff9496c1),
+    this.activeColor = const Color(0xffA12830),
+    this.inactiveColor = const Color(0xffDB8086),
   });
 
   Color activeColor;
