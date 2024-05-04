@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/features/authentication/screens/welcome_page/welcome_page.dart';
 import 'package:namer_app/screen/introduction/home.dart';
 import 'package:namer_app/screen/setting/settings.dart';
 import 'package:namer_app/screen/showtimes/showtimes.dart';
@@ -15,7 +16,7 @@ class _NavigationState extends State<Navigation> {
     (context) => Home(),
     (context) => Showtimes(),
     (context) => Home(),
-    (context) => Home(),
+    (context) => WelcomeScreen(),
     (context) => Settings(),
   ];
 

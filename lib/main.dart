@@ -1,6 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/navigation/navigation.dart';
+import 'package:namer_app/utlis/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -22,14 +23,13 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Vietnamese opera theater',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        ),
+        title: 'Vietnamese Opera Theater',
+        theme: TheaterAppTheme.lightTheme,
+        darkTheme: TheaterAppTheme.darkTheme,
+        themeMode: ThemeMode.light,
         home: Navigation(),
       ),
-    ); 
+    );
   }
 }
 
@@ -37,7 +37,3 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
 }
-
-
-
-
