@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'Vietnamese opera theater',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
         home: Navigation(),
         debugShowCheckedModeBanner: false,

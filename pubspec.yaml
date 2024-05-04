@@ -17,6 +17,7 @@ dependencies:
   video_player: ^2.8.3
   custom_video_player: ^1.0.9
   flashy_tab_bar2: ^0.0.3
+  flutter_pdfview: ^1.2.7
 
 dev_dependencies:
   flutter_test:
@@ -28,3 +29,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/videos/demo.mp4
+    - assets/pdfs/Ngo Yen Vi Resume.pdf

@@ -16,7 +16,7 @@ class NavigationState extends State<Navigation> {
   static List<WidgetBuilder> _widgetOptions = <WidgetBuilder>[
     (context) => Home(),
     (context) => Home(),
-    (context) => Home(),
+    (context) => ReviewScreen(),
     (context) => ReviewScreen(),
     (context) => Settings(),
   ];
