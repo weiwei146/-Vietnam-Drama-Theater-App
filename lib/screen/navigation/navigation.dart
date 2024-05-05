@@ -1,65 +1,77 @@
+import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/features/authentication/screens/welcome_page/welcome_page.dart';
 import 'package:namer_app/screen/introduction/home.dart';
+import 'package:namer_app/screen/library/library.dart';
+import 'package:namer_app/screen/schedule/schedule.dart';
+import 'package:namer_app/screen/review/review.dart';
 import 'package:namer_app/screen/setting/settings.dart';
-import 'package:namer_app/screen/showtimes/showtimes.dart';
+
 
 class Navigation extends StatefulWidget {
   @override
-  _NavigationState createState() => _NavigationState();
+  NavigationState createState() => NavigationState();
 }
 
-class _NavigationState extends State<Navigation> {
+class NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
 
   static List<WidgetBuilder> _widgetOptions = <WidgetBuilder>[
     (context) => Home(),
-    (context) => Showtimes(),
-    (context) => Home(),
+    (context) => Schedule(),
+    (context) => LibraryScreen(),
     (context) => WelcomeScreen(),
-    (context) => Settings(),
+    (context) => ReviewScreen(),
+    (context) => ReviewScreen(),
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex)(context),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex)(context),
+        ),
+      bottomNavigationBar: FlashyTabBar(
+        animationCurve: Curves.linear,
+        selectedIndex: _selectedIndex,
+        iconSize: 30,
+        showElevation: false, // use this to remove appBar's elevation
+        onItemSelected: (index) => setState(() {
+          _selectedIndex = index;
+        }),
+        items: [
+          FlashyTabBarItem(
             icon: Icon(Icons.home),
-            label: 'Trang chủ',
+            title: Text('Trang chủ'),
+            activeColor:Color(0xffA12830),
+            inactiveColor: Color(0xffD19296),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Lịch chiếu',
+          FlashyTabBarItem(
+            icon: Icon(Icons.event),
+            title: Text('Lịch diễn'),
+            activeColor:Color(0xffA12830),
+            inactiveColor: Color(0xffD19296),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Tìm kiếm',
+          FlashyTabBarItem(
+            icon: Icon(Icons.folder),
+            title: Text('Thư viện'),
+            activeColor:Color(0xffA12830),
+            inactiveColor: Color(0xffD19296),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Cá nhân',
+          FlashyTabBarItem(
+            icon: Icon(Icons.newspaper),
+            title: Text('Tin tức'),
+            activeColor:Color(0xffA12830),
+            inactiveColor: Color(0xffD19296),
           ),
-          BottomNavigationBarItem(
+          FlashyTabBarItem(
             icon: Icon(Icons.settings),
-            label: 'Cài đặt',
+            title: Text('Cài đặt'),
+            activeColor:Color(0xffA12830),
+            inactiveColor: Color(0xffD19296),
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey, // Chọn màu cho các mục chưa được chọn
-        onTap: _onItemTapped,
-      ),
+      )
     );
   }
 }
