@@ -8,9 +8,7 @@ import Foundation
 import device_info_plus
 import file_selector_macos
 import path_provider_foundation
-
 import realm
-
 import video_player_avfoundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
