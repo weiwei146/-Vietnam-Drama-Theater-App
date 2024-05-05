@@ -137,6 +137,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.9.2"
+  calendar_date_picker2:
+    dependency: "direct main"
+    description:
+      name: calendar_date_picker2
+      sha256: "67b6a46c002716feff665e1c3c42549f6b527b9c66d5537a57d1e374e05f01a6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   cancellation_token:
     dependency: transitive
     description:
@@ -520,6 +528,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   io:
     dependency: transitive
     description:
@@ -796,34 +812,34 @@ packages:
     dependency: "direct main"
     description:
       name: realm
-      sha256: b76d555e22c824742938612f289262b1fee586977cfdb267e937b9d294dcd12b
+      sha256: "1169e97892d394cfb9bfa13f31797bbbf49d4402c6c9de6ed60aab8a973a6a89"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   realm_common:
     dependency: transitive
     description:
       name: realm_common
-      sha256: c04b64fcbcd0afd78c06939efdedb484417697242039d5bb0b07fa150c9c021d
+      sha256: "10fa6c3265904ccbb07b2b847ea126de6ca1ddb50dbfbdd54deca97db1201ead"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   realm_dart:
     dependency: transitive
     description:
       name: realm_dart
-      sha256: b523d392ec614ccb358e64451aca4772d56db23f93e8f58dd1d1780dadc92706
+      sha256: d8e4d11a0f7a1c3eae5f059135d0be0aac67643b93cf083ab84f4726718d5ad4
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   realm_generator:
     dependency: transitive
     description:
       name: realm_generator
-      sha256: a5c3c403add9d886c098509b49517f44f1d8b667ac0178f80f58fea5ce069fb8
+      sha256: "2292d91558c9f53779261188d67cb1a456664f5b9be72dfdc43c1faae07e6638"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   sane_uuid:
     dependency: transitive
     description:
