@@ -1,5 +1,6 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/features/authentication/screens/welcome_page/welcome_page.dart';
 import 'package:namer_app/screen/introduction/home.dart';
 import 'package:namer_app/screen/library/library.dart';
 import 'package:namer_app/screen/schedule/schedule.dart';
@@ -19,10 +20,9 @@ class NavigationState extends State<Navigation> {
     (context) => Home(),
     (context) => Schedule(),
     (context) => LibraryScreen(),
-    (context) => Home(),
+    (context) => WelcomeScreen(),
     (context) => ReviewScreen(),
     (context) => ReviewScreen(),
-    (context) => Settings(),
   ];
 
   @override

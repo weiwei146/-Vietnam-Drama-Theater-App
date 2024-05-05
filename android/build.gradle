@@ -12,16 +12,21 @@ allprojects {
     }
 }
 
+// Thiết lập thư mục build cho dự án
 rootProject.buildDir = '../build'
+
+// Thiết lập thư mục build cho các dự án con
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
+// Thiết lập multiDexEnabled true cho tất cả các dự án con
 subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// Định nghĩa task clean để xóa thư mục build
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
-
 
