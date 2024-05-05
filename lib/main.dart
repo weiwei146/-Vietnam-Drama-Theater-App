@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDatabase.connect();
+  // await MongoDatabase.connect();
   //yêu cầu Flutter chạy ứng dụng được xác định trong MyApp.
   runApp(MyApp());
 }

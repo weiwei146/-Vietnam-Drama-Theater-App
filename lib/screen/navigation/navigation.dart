@@ -1,6 +1,7 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/introduction/home.dart';
+import 'package:namer_app/screen/library/library.dart';
 import 'package:namer_app/screen/schedule/schedule.dart';
 import 'package:namer_app/screen/review/review.dart';
 import 'package:namer_app/screen/setting/settings.dart';
@@ -17,7 +18,7 @@ class NavigationState extends State<Navigation> {
   static List<WidgetBuilder> _widgetOptions = <WidgetBuilder>[
     (context) => Home(),
     (context) => Schedule(),
-    (context) => Home(),
+    (context) => LibraryScreen(),
     (context) => Home(),
     (context) => ReviewScreen(),
     (context) => ReviewScreen(),
