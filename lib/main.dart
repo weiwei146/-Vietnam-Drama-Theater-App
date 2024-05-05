@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:namer_app/screen/navigation/navigation.dart';
 import 'package:namer_app/utlis/theme.dart';
 import 'package:provider/provider.dart';
@@ -22,11 +23,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
-      child: MaterialApp(
+      child: GetMaterialApp(
         title: 'Vietnamese Opera Theater',
         theme: TheaterAppTheme.lightTheme,
         darkTheme: TheaterAppTheme.darkTheme,
-        themeMode: ThemeMode.light,
+        themeMode: MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? ThemeMode.dark
+            : ThemeMode.light,
         home: Navigation(),
       ),
     );

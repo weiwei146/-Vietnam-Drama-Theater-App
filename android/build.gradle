@@ -1,17 +1,30 @@
+// Định nghĩa các repositories để tải các thư viện từ Google và Maven Central
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
 }
+
+// Thiết lập thư mục build cho dự án
 rootProject.buildDir = '../build'
+
+// Thiết lập thư mục build cho các dự án con
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
+// Thiết lập multiDexEnabled true cho tất cả các dự án con
 subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// Định nghĩa task clean để xóa thư mục build
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
+}
+
+// Định nghĩa dependencies, bao gồm multidex
+dependencies {
+    implementation 'com.android.support:multidex:2.0.1'
 }
