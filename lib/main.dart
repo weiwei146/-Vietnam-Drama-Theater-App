@@ -1,11 +1,14 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:namer_app/mongodb.dart';
 import 'package:namer_app/screen/navigation/navigation.dart';
 import 'package:namer_app/utlis/theme.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await MongoDatabase.connect();
   //yêu cầu Flutter chạy ứng dụng được xác định trong MyApp.
   runApp(MyApp());
 }
@@ -18,7 +21,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-//để tiện ích luôn được cập nhật.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -31,10 +33,13 @@ class MyApp extends StatelessWidget {
             ? ThemeMode.dark
             : ThemeMode.light,
         home: Navigation(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
 }
+
+
 
 //MyAppState xác định dữ liệu mà ứng dụng cần để hoạt động
 class MyAppState extends ChangeNotifier {
