@@ -20,6 +20,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   flutter_svg: ^2.0.9
   get: ^4.6.6
+  line_awesome_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:

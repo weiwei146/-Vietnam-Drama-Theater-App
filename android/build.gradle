@@ -23,8 +23,3 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
-
-// Định nghĩa dependencies, bao gồm multidex
-dependencies {
-    implementation 'com.android.support:multidex:2.0.1'
-}
