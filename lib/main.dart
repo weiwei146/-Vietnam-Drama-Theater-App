@@ -1,4 +1,4 @@
-import 'package:english_words/english_words.dart';
+﻿import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namer_app/mongodb.dart';
@@ -14,7 +14,7 @@ void main() async {
 }
 
 //Lớp MyApp mở rộng StatelessWidget. Widget là thành phần giúp bạn xây dựng mọi ứng dụng Flutter.
-//Như bạn có thể thấy, ngay cả bản thân ứng dụng cũng là một widget.
+//Như bạn có thể thấy, ngay cả bản thân ứng dụng cũng là một widget
 //Mã trong MyApp thiết lập toàn bộ ứng dụng.
 //Nó tạo ra trạng thái toàn ứng dụng (sẽ nói thêm về điều này sau), đặt tên cho ứng dụng, xác định chủ đề trực quan
 //đặt tiện ích "trang chủ"—điểm bắt đầu của ứng dụng của bạn.
@@ -29,9 +29,7 @@ class MyApp extends StatelessWidget {
         title: 'Vietnamese Opera Theater',
         theme: TheaterAppTheme.lightTheme,
         darkTheme: TheaterAppTheme.darkTheme,
-        themeMode: MediaQuery.of(context).platformBrightness == Brightness.dark
-            ? ThemeMode.dark
-            : ThemeMode.light,
+        themeMode: ThemeMode.system,
         home: Navigation(),
         debugShowCheckedModeBanner: false,
       ),
