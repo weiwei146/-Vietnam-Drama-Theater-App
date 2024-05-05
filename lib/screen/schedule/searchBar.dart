@@ -25,11 +25,12 @@ class CustomSearchBar extends StatefulWidget {
 class _CustomSearchBarState extends State<CustomSearchBar> {
 
   List<Schedule> allItems = [
-    Schedule(title: 'Ngũ hổ tướng',
+    Schedule( title: 'Ngũ hổ tướng',
               released_on: DateTime(2024, 5, 4, 10, 0),
               place: 'Nhà hát Kịch Việt Nam',
               poster: 'https://i.imgur.com/zQSKfoz.jpg',
               genres: 'Kịch hiện đại'),
+
     Schedule(title: "Điều còn lại",
         released_on: DateTime(2024, 5, 4, 10, 0),
         place: 'Thái Nguyên',

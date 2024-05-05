@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screen/schedule/scheduleDetails/ScheduleDetails.dart';
 import '../interface/Schedule.dart';
 import '../interface/SizeConfig.dart';
 import 'package:intl/intl.dart';
@@ -18,14 +19,10 @@ class ScheduleCard extends StatelessWidget {
         padding:  EdgeInsets.symmetric(vertical: SizeConfig.smallPadding),
         child: GestureDetector(
           onTap: () {
-            // showCupertinoModalBottomSheet(
-            //   /// We set the useRootNavigator to true to remove the [CupertinoBottomBar]
-            //   useRootNavigator: true,
-            //   duration: const Duration(milliseconds: 400),
-            //   context: context,
-            //   builder: (context) =>
-            //       ScheduleDetailPage(context: context, schedule: schedule),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ScheduleDetails(context: context, schedule: schedule)),
+            );
           },
         child: Container(
             decoration: BoxDecoration(
