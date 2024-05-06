@@ -28,8 +28,45 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
   @override
   Widget build(BuildContext context) {
     print(widget.schedule);
-    return MovieDetailScreenWidget(
-        schedule: widget.schedule
+    return Stack(
+      children: [
+        // Your main content goes here
+        MovieDetailScreenWidget(
+            schedule: widget.schedule
+        ),
+        // Floating bottom widget
+        Positioned(
+          left: 32,
+          right: 32,
+          bottom: 24,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.red, // Background color of the container
+              borderRadius: BorderRadius.circular(16.0), // Rounded corners for the top side only
+            ),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+              ),
+              onPressed: () {
+                // Add your button's functionality here
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    'Đặt vé xem kịch',
+                    style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -76,7 +113,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * (1 - 0.63),
                         width: MediaQuery.of(context).size.width,
                         child: CachedNetworkImage(
-                          imageUrl: schedule.poster!, //backdrop
+                          imageUrl: schedule.backdrop!, //backdrop
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -152,9 +189,9 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                                       .primaryColor,
                                                 ),
                                                 title: Text(
-                                                  "Open in Brower ",
-                                                  // style: TextStyle(
-                                                  //     color: Colors.white),
+                                                  "Mở trong trình duyệt",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
                                                 ),
                                               ),
                                               Divider(
@@ -182,7 +219,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                   ],
                 ),
                 BottomInfoSheet(
-                  backdrops: schedule.poster!, //backdrop
+                  backdrops: schedule.backdrop!, //backdrop
                   child: [
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -259,7 +296,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                             mainAxisSize: MainAxisSize.min,
                                             children: List.generate(5, (index) {
                                               return Icon(
-                                                index < 4 ? CupertinoIcons.star_fill : CupertinoIcons.star, //schedule.imdb_rating
+                                                index < schedule.imdb_rating! ? CupertinoIcons.star_fill : CupertinoIcons.star, //schedule.imdb_rating
                                                 color: Colors.amber,
                                                 size: 16,
                                               );
@@ -268,7 +305,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                         ),
                                         Text(
                                           "  " +
-                                              // schedule.imdb_rating!.toString() +
+                                              schedule.imdb_rating!.toString() +
                                               "/10",
                                           style: TextStyle(
                                             color: Colors.amber,
@@ -297,7 +334,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (schedule.title != '') // schedule.overview
+                    if (schedule.overview != '') // schedule.overview
                       Container(
                         padding: const EdgeInsets.all(12),
                         child: Column(
@@ -306,14 +343,14 @@ class MovieDetailScreenWidget extends StatelessWidget {
                           children: [
                             DelayedDisplay(
                                 delay: const Duration(microseconds: 800),
-                                child: Text("Overview",
+                                child: Text("Mô tả",
                                     style:
                                     TextStyle(color: Colors.white))),
                             const SizedBox(height: 10),
                             DelayedDisplay(
                               delay: const Duration(microseconds: 1000),
                               child: ReadMoreText(
-                                schedule.title!, //overview
+                                schedule.overview!, //overview
                                 trimLines: 6,
                                 colorClickableText: Colors.pink,
                                 trimMode: TrimMode.Line,
@@ -335,132 +372,84 @@ class MovieDetailScreenWidget extends StatelessWidget {
                     //     backdrops: backdrops,
                     //     backdrop: schedule.backdrops,
                     //   ),
-                    // if (!schedule.cast == null)
-                    //   Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       const SizedBox(height: 20),
-                    //       Padding(
-                    //         padding: const EdgeInsets.all(14.0),
-                    //         child: Text("Cast",
-                    //             style: TextStyle(color: Colors.white)),
-                    //       ),
-                    //       // CastList(
-                    //       //   castList: castList,
-                    //       // ),
-                    //     ],
-                    //   ),
-                    // ExpandableGroup(
-                    //   isExpanded: true,
-                    //   expandedIcon: Icon(
-                    //     Icons.arrow_drop_up,
-                    //     color: Colors.white != Colors.white
-                    //         ? Colors.black
-                    //         : Colors.white,
-                    //   ),
-                    //   collapsedIcon: Icon(
-                    //     Icons.arrow_drop_down,
-                    //     color: Colors.white != Colors.white
-                    //         ? Colors.black
-                    //         : Colors.white,
-                    //   ),
-                    //   header: Padding(
-                    //     padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                    //     child: Text(
-                    //       "About Movie",
-                    //       style: TextStyle(color: Colors.white),
-                    //     ),
-                    //   ),
-                    //   items: [
-                    //     ListTile(
-                    //         title: Text(
-                    //           "Runtime",
-                    //           style: TextStyle(
-                    //               color: Colors.white, fontSize: 16),
-                    //         ),
-                    //         subtitle: Text(
-                    //           schedule.length!,
-                    //           style: TextStyle(color: Colors.white),
-                    //         )),
-                    //     ListTile(
-                    //         title: Text(
-                    //           "Writers",
-                    //           style: TextStyle(
-                    //               color: Colors.white, fontSize: 16),
-                    //         ),
-                    //         subtitle: Text(
-                    //           schedule.director,
-                    //           style: TextStyle(color: Colors.white),
-                    //         )),
-                    //     ListTile(
-                    //         title: Text(
-                    //           "Director",
-                    //           style: TextStyle(
-                    //               color: Colors.white, fontSize: 16),
-                    //         ),
-                    //         subtitle: Text(
-                    //           schedule.director,
-                    //           style: TextStyle(color: Colors.white),
-                    //         )),
-                    //     ListTile(
-                    //         title: Text(
-                    //           "Released on/Releasing on",
-                    //           style: TextStyle(
-                    //               color: Colors.white, fontSize: 16),
-                    //         ),
-                    //         subtitle: Text(
-                    //           DateFormat('HH:MM, dd/MM/yyyy').format(schedule.released_on!),
-                    //           style: TextStyle(color: Colors.white),
-                    //         )),
-                    //   ],
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                      child: ExpandableGroup(
-                        isExpanded: false,
-                        expandedIcon: Icon(
-                          Icons.arrow_drop_up,
-                          color: Colors.white != Colors.white
-                              ? Colors.black
-                              : Colors.white,
-                        ),
-                        collapsedIcon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white != Colors.white
-                              ? Colors.black
-                              : Colors.white,
-                        ),
-                        header: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                          child: Text(
-                            "Movie on Boxoffice",
-                            style: TextStyle(color: Colors.white),
+                    if (schedule.cast.length > 0)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: Text("Diễn viên",
+                                style: TextStyle(color: Colors.white)),
                           ),
-                        ),
-                        items: [
-                          ListTile(
-                              title: Text(
-                                "Rated",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
-                              subtitle: Text(
-                                5.toString(), // schedule.imdb_rating
-                                style: TextStyle(color: Colors.white),
-                              )),
-                          // ListTile(
-                          //   title: Text(
-                          //     "BoxOffice",
-                          //     style: TextStyle(
-                          //         color: Colors.white, fontSize: 16),
-                          //   ),
-                          //   subtitle: Text(
-                          //     imdbInfo.boxOffice,
-                          //     style: TextStyle(color: Colors.white),
-                          //   ),
+                          // CastList(
+                          //   castList: castList,
                           // ),
                         ],
                       ),
+                    ExpandableGroup(
+                      isExpanded: true,
+                      expandedIcon: Icon(
+                        Icons.arrow_drop_up,
+                        color: Colors.white != Colors.white
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      collapsedIcon: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white != Colors.white
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      header: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                        child: Text(
+                          "Thông tin về vở diễn",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      items: [
+                        ListTile(
+                            title: Text(
+                              "Thời lượng",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                            subtitle: Text(
+                              schedule.length! + " phút.",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                        ListTile(
+                            title: Text(
+                              "Biên kịch",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                            subtitle: Text(
+                              schedule.director,
+                              style: TextStyle(color: Colors.white),
+                            )),
+                        ListTile(
+                            title: Text(
+                              "Đạo diễn",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                            subtitle: Text(
+                              schedule.director,
+                              style: TextStyle(color: Colors.white),
+                            )),
+                        ListTile(
+                            title: Text(
+                              "Thời gian bắt đầu",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                            subtitle: Text(
+                              DateFormat('HH:MM, dd/MM/yyyy').format(schedule.released_on!),
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ],
                     ),
                   ],
                 ),
