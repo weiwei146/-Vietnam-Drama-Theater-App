@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:namer_app/constants/sizes.dart';
+import 'package:namer_app/features/authentication/screens/signup_page/signup_page.dart';
 
 class LoginFooterWidget extends StatelessWidget {
   const LoginFooterWidget({
@@ -36,7 +38,7 @@ class LoginFooterWidget extends StatelessWidget {
         ),
         const SizedBox(height: tFormHeight - 20),
         TextButton(
-          onPressed: () {},
+          onPressed: () => Get.to(() => SignUpScreen()),
           child: Text.rich(
             TextSpan(
                 text: "Chưa có tài khoản?",

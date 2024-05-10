@@ -52,13 +52,14 @@ class SignUpFooterWidget extends StatelessWidget {
               children: [
                 TextSpan(
                   text: "Đã có tài khoản?",
-                  style: Theme.of(context).textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
                 TextSpan(
                   text: " Đăng nhập ngay",
                   style: GoogleFonts.montserrat(
                     color: Colors.blue,
-                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
                   ),
                 ),
               ],
