@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:namer_app/constants/sizes.dart';
+import 'package:namer_app/features/authentication/controllers/signup_controller.dart';
 
 class SignUpFormWidget extends StatelessWidget {
   const SignUpFormWidget({
@@ -8,13 +10,17 @@ class SignUpFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SignUpController());
+    final _formKey = GlobalKey<FormState>();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              controller: controller.displayName,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.person_outline_rounded),
                 labelText: "Tên đăng nhập",
@@ -28,6 +34,7 @@ class SignUpFormWidget extends StatelessWidget {
             ),
             const SizedBox(height: tFormHeight - 22),
             TextFormField(
+              controller: controller.email,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.email_outlined),
                 labelText: "Email",
@@ -41,6 +48,7 @@ class SignUpFormWidget extends StatelessWidget {
             ),
             const SizedBox(height: tFormHeight - 22),
             TextFormField(
+              controller: controller.phoneNo,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.email_outlined),
                 labelText: "Số điện thoại",
@@ -54,6 +62,7 @@ class SignUpFormWidget extends StatelessWidget {
             ),
             const SizedBox(height: tFormHeight - 22),
             TextFormField(
+              controller: controller.password,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.fingerprint),
                 labelText: "Mật khẩu",
@@ -69,7 +78,13 @@ class SignUpFormWidget extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      SignUpController.instance.registerUser(
+                          controller.email.text.trim(),
+                          controller.password.text.trim());
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red, // Màu nền đỏ
                     shape: RoundedRectangleBorder(
