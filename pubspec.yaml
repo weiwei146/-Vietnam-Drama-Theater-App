@@ -25,6 +25,7 @@ dependencies:
   flutter_pdfview: ^1.2.7
   realm: ^2.2.0
   mongo_dart: ^0.10.2
+  get_it: ^7.2.0
 
 
 dev_dependencies:
