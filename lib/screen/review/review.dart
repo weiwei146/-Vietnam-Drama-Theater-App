@@ -35,6 +35,14 @@ class ReviewItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  userName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0, // Đặt kích thước chữ ở đây (ví dụ: 18.0)
+                  ),
+                ),
+                SizedBox(height: 4.0),
                 Row(
                   children: List.generate(5, (index) {
                     if (index < rating) {
@@ -45,11 +53,6 @@ class ReviewItem extends StatelessWidget {
                   }),
                 ),
                 SizedBox(height: 8.0),
-                Text(
-                  userName,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 4.0),
                 Text(reviewText),
               ],
             ),
