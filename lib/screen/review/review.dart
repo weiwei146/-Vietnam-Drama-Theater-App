@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:namer_app/screen/introduction/videoPlayerController.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
@@ -9,145 +7,247 @@ class ReviewScreen extends StatefulWidget {
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
-class _ReviewScreenState extends State<ReviewScreen> {
-  final SearchController controller = SearchController();
+class ReviewItem extends StatelessWidget {
+  final String userName;
+  final String avatarUrl;
+  final int rating;
+  final String reviewText;
+
+  ReviewItem({
+    required this.userName,
+    required this.avatarUrl,
+    required this.rating,
+    required this.reviewText,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.black,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            searchBar(),
-            SizedBox(height: 20.0),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 20.0),
-                Text(
-                  "Hình ảnh",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              height: 120.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  SizedBox(width: 20.0),
-                  buildImage('https://nld.mediacdn.vn/291774122806476800/2022/9/9/z3707852783950752225873a84d1874063c8dc191319fa-16626983552691933008383.jpg'),
-                  SizedBox(width: 15.0),
-                  buildImage('https://media.vov.vn/sites/default/files/styles/large/public/2022-12/a_2_0.jpg'),
-                  SizedBox(width: 15.0),
-                  buildImage('https://nld.mediacdn.vn/291774122806476800/2022/9/9/z3707852783950752225873a84d1874063c8dc191319fa-16626983552691933008383.jpg'),
-                  SizedBox(width: 15.0),
-                  buildImage('https://media.vov.vn/sites/default/files/styles/large/public/2022-12/a_2_0.jpg'),
-                  SizedBox(width: 15.0),
-                  buildImage('https://nld.mediacdn.vn/291774122806476800/2022/9/9/z3707852783950752225873a84d1874063c8dc191319fa-16626983552691933008383.jpg'),
-                ],
-              ),
-            ),
-            SizedBox(height: 30.0),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 20.0),
-                Text(
-                  "Video",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              height: 120.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  SizedBox(width: 20.0),
-                  buildVideo(),
-                  SizedBox(width: 15.0),
-                  buildVideo(),
-                  SizedBox(width: 15.0),
-                  buildVideo(),
-                  SizedBox(width: 15.0),
-                  buildVideo(),
-                  SizedBox(width: 15.0),
-                  buildVideo(),
-                ],
-              ),
-            )
-          ],
-        ));
-  }
-
-  Widget buildImage (String imageUrl) {
-    return GestureDetector(
-      onTap: () {
-        print("Ảnh đã được ấn vào");
-      },
-      child: Container(
-        width: 200.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          image: DecorationImage(
-            image: NetworkImage(imageUrl),
-            fit: BoxFit.cover,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            backgroundImage: NetworkImage(avatarUrl),
           ),
-        ),
+          SizedBox(width: 16.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0, // Đặt kích thước chữ ở đây (ví dụ: 18.0)
+                  ),
+                ),
+                SizedBox(height: 4.0),
+                Row(
+                  children: List.generate(5, (index) {
+                    if (index < rating) {
+                      return Icon(Icons.star, color: Colors.yellow);
+                    } else {
+                      return Icon(Icons.star, color: Colors.grey);
+                    }
+                  }),
+                ),
+                SizedBox(height: 8.0),
+                Text(reviewText),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
+}
 
-  Widget searchBar() {
-    return Column(
-      children: <Widget>[
-        SearchAnchor(
-            viewBackgroundColor: Color.fromRGBO(85, 85, 85, 1),
-            searchController: controller,
-            builder: (BuildContext context, SearchController controller) {
-              return IconButton(
-                color: Colors.white30,
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  // controller.openView();
-                },
-              );
-            },
-            suggestionsBuilder:
-                (BuildContext context, SearchController controller) {
-              return List<ListTile>.generate(5, (int index) {
-                final String item = 'item $index';
-                return ListTile(
-                  title: Text(item),
-                  onTap: () {
-                    setState(() {
-                      controller.closeView(item);
-                    });
-                  },
-                );
-              });
-            }),
-      ],
+class ReviewList extends StatelessWidget {
+  final List<ReviewItem> reviews;
+
+  ReviewList({required this.reviews});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: reviews.length,
+      itemBuilder: (context, index) {
+        return reviews[index];
+      },
     );
   }
+}
 
-  Widget buildVideo() {
-    return Container(
-        width: 200.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.grey[300], // Màu nền của container
-        ),
-        child: VideoPlayerApp());
+class _ReviewScreenState extends State<ReviewScreen> {
+  List<ReviewItem> reviews = [
+    ReviewItem(
+      userName: 'Người dùng A',
+      avatarUrl: 'https://scontent.fhan19-1.fna.fbcdn.net/v/t1.6435-9/52501595_793648261012338_4544737335232692224_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeF-xVs8akkbIjXvhrN67feaXK3Nx5HRGx5crc3HkdEbHpEKYJyH-QQ744omkhiHBvnou6EPjvEwwKnyi5z73hU1&_nc_ohc=pmGzD-mhpFYQ7kNvgFO21B-&_nc_ht=scontent.fhan19-1.fna&oh=00_AYBMedI5kdlnH9GE0J0GjZKQIfV_iiJdNysB0QznquAXHg&oe=666816DC',
+      rating: 4,
+      reviewText: 'Vở kịch rất hay, diễn viên đáng để xem.',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 5,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'https://scontent.fhan19-1.fna.fbcdn.net/v/t1.6435-9/52501595_793648261012338_4544737335232692224_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeF-xVs8akkbIjXvhrN67feaXK3Nx5HRGx5crc3HkdEbHpEKYJyH-QQ744omkhiHBvnou6EPjvEwwKnyi5z73hU1&_nc_ohc=pmGzD-mhpFYQ7kNvgFO21B-&_nc_ht=scontent.fhan19-1.fna&oh=00_AYBMedI5kdlnH9GE0J0GjZKQIfV_iiJdNysB0QznquAXHg&oe=666816DC',
+      rating: 5,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 5,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 3,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 1,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 2,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 3,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 4,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 4,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 4,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 4,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 5,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 2,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 3,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 4,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 3,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 2,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 1,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 2,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+    ReviewItem(
+      userName: 'Người dùng B',
+      avatarUrl: 'URL_ảnh_B',
+      rating: 3,
+      reviewText: 'Tuyệt vời, không thể tuyệt hơn!',
+    ),
+
+
+    // Thêm các đánh giá khác vào đây
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    List<ReviewItem> visibleReviews = reviews; // Lấy 10 đánh giá đầu tiên
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Đánh giá vở kịch (${visibleReviews.length})'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: visibleReviews.length,
+              itemBuilder: (context, index) {
+                return ReviewItem(
+                  userName: visibleReviews[index].userName,
+                  avatarUrl: visibleReviews[index].avatarUrl,
+                  rating: visibleReviews[index].rating,
+                  reviewText: visibleReviews[index].reviewText,
+                );
+              },
+            ),
+          ),
+          // TextButton(
+          //   onPressed: () {
+          //     // Xử lý khi người dùng nhấn vào nút "Xem tất cả"
+          //     // Hiển thị tất cả các đánh giá
+          //
+          //     setState(() {
+          //       visibleReviews = reviews; // Hiển thị tất cả đánh giá
+          //     });
+          //     print(visibleReviews.length);
+          //   },
+          //   child: Text('Xem tất cả (${reviews.length} đánh giá)'),
+          // ),
+        ],
+      ),
+    );
   }
 }

@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "628690408523",
-    "firebase_url": "https://vietnam-theater-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "vietnam-theater",
-    "storage_bucket": "vietnam-theater.appspot.com"
+    "project_number": "858938465366",
+    "project_id": "login-8b9e2",
+    "storage_bucket": "login-8b9e2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:628690408523:android:3bc7970ba5ac1ae68729ce",
+        "mobilesdk_app_id": "1:858938465366:android:42fa35877ea615c746aff7",
         "android_client_info": {
           "package_name": "com.example.vietname_app"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCdvXgnwkhIZa6BXZiKwSEgab9IhnY5rOI"
+          "current_key": "AIzaSyDCAEuJQemB-UoXc6NZtL6WEWZsquJ2yUk"
         }
       ],
       "services": {
