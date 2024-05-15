@@ -22,6 +22,13 @@ dependencies:
   get: ^4.6.6
   line_awesome_flutter: ^2.0.0
   flashy_tab_bar2: ^0.0.3
+  calendar_date_picker2: ^1.0.1
+  flutter_bloc: ^8.1.4
+  cached_network_image: 3.3.1
+  delayed_display: ^2.0.0
+  flutter_rating_bar: ^4.0.1
+  readmore: ^3.0.0
+  expandable_group: ^0.0.6
   flutter_pdfview: ^1.2.7
 #  realm: ^2.2.0
 #  mongo_dart: ^0.10.2
