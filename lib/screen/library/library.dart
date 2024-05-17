@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:namer_app/screen/library/videoInReview.dart';
+import 'package:namer_app/screen/library/videoYoutube.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({super.key});
@@ -24,7 +25,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       ),
       Positioned.fill(
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
             color: Colors.white.withOpacity(0.2),
           ),
@@ -109,20 +110,14 @@ class _LibraryScreenState extends State<LibraryScreen> {
         ),
         SizedBox(height: 10.0),
         Container(
-          height: 120.0,
+          height: 180.0,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
               SizedBox(width: 20.0),
-              buildVideo(),
+              buildVideo("https://www.youtube.com/watch?v=ohW3V_t-hmk&t=13s"),
               SizedBox(width: 15.0),
-              buildVideo(),
-              SizedBox(width: 15.0),
-              buildVideo(),
-              SizedBox(width: 15.0),
-              buildVideo(),
-              SizedBox(width: 15.0),
-              buildVideo(),
+              buildVideo("https://www.youtube.com/watch?v=ohW3V_t-hmk&t=13s"),
               SizedBox(width: 15.0),
               IconButton(
                 color: Colors.white,
@@ -136,7 +131,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
             ],
           ),
         ),
-        SizedBox(height: 50.0),
+        SizedBox(height: 15.0),
         Row(
           children: <Widget>[
             SizedBox(width: 20.0),
@@ -311,14 +306,34 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  Widget buildVideo() {
-    return Container(
-        width: 200.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.grey[300],
-        ),
-        child: VideoPlayerApp());
+  Widget buildVideo(String url) {
+    bool runVideo = false;
+    return GestureDetector(
+        onTap: () {
+          dialogVideo();
+        },
+        child: Container(
+          child: Container(
+            width: 170.0,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 120.0,
+                  child: VideoPlayerYoutubeApp(videoUrl: url, runVideo: runVideo,),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  "Title of video",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget dialogImage(String imageUrl) {
@@ -336,6 +351,23 @@ class _LibraryScreenState extends State<LibraryScreen> {
       ),
     );
   }
+
+
+Widget dialogVideo() {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double videoHeight = screenWidth * (9 / 16);
+
+  return AlertDialog(
+    contentPadding: EdgeInsets.zero, 
+    content: SizedBox(
+      width: screenWidth, 
+      height: videoHeight, 
+      // child: VideoPlayerYoutubeApp(),
+    ),
+  );
+}
+
+
 
   // Widget buildBackground(BuildContext context) {
   //   return 
