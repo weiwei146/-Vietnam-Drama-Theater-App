@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../utlis/animation.dart';
 import 'BottomInfoSheet.dart';
+import 'copyLink.dart';
 
 class ScheduleDetails extends StatefulWidget {
   final Schedule schedule;
@@ -92,23 +95,13 @@ class MovieDetailScreenWidget extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 30, sigmaY: 50),
           child: Container(
-            color: Colors.black.withOpacity(.5),
+            color: Colors.white.withOpacity(.5),
             child: Stack(
               // physics: BouncingScrollPhysics(),
               children: [
                 Stack(
                   children: [
                     InkWell(
-                      onTap: () {
-                        // pushNewScreen(
-                        //   context,
-                        //   ViewPhotos(
-                        //     imageIndex: 0,
-                        //     color: Theme.of(context).primaryColor,
-                        //     imageList: backdrops,
-                        //   ),
-                        // );
-                      },
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * (1 - 0.63),
                         width: MediaQuery.of(context).size.width,
@@ -128,7 +121,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                               onTap: () => Navigator.pop(context),
                               child: const Icon(
                                 CupertinoIcons.back,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                             CreateIcons(
@@ -142,7 +135,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext ctx) {
                                     return Container(
-                                      color: Colors.black26,
+                                      color: Colors.white,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -153,7 +146,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                             height: 5,
                                             width: 100,
                                             decoration: BoxDecoration(
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               borderRadius:
                                               BorderRadius.circular(20),
                                             ),
@@ -163,25 +156,9 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                           ),
                                           Column(
                                             children: [
-                                              // CopyLink(
-                                              //   title: schedule.title,
-                                              //   id: schedule.tmdbId,
-                                              //   type: 'movie',
-                                              // ),
-                                              Divider(
-                                                height: .5,
-                                                thickness: .5,
-                                                color: Colors.grey.shade800,
-                                              )
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
                                               ListTile(
                                                 onTap: () {
-                                                  // launch(
-                                                  //     "https://www.themoviedb.org/movie/" +
-                                                  //         schedule.tmdbId);
+                                                  launchUrl(Uri.parse(schedule.webURL!));
                                                 },
                                                 leading: Icon(
                                                   CupertinoIcons.share,
@@ -191,13 +168,13 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                                 title: Text(
                                                   "Mở trong trình duyệt",
                                                   style: TextStyle(
-                                                      color: Colors.white),
+                                                      color: Colors.black),
                                                 ),
                                               ),
                                               Divider(
                                                 height: .5,
                                                 thickness: .5,
-                                                color: Colors.grey.shade800,
+                                                color: Colors.black,
                                               )
                                             ],
                                           ),
@@ -209,7 +186,7 @@ class MovieDetailScreenWidget extends StatelessWidget {
                               },
                               child: const Icon(
                                 CupertinoIcons.ellipsis,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -258,15 +235,15 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                           TextSpan(
                                             text: schedule.title,
                                             style:
-                                            TextStyle(fontSize: 22),
+                                            TextStyle(fontSize: 22, color: Color(0xffA12830)),
                                           ),
                                           TextSpan(
                                             text:
-                                            " (${DateFormat('HH:MM, dd/MM/yyyy').format(schedule.released_on!)})",
+                                            " (${DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!)})",
                                             style: TextStyle(
                                               color:
-                                              Colors.white.withOpacity(.8),
-                                              fontSize: 18,
+                                              Colors.black.withOpacity(.8),
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ],
@@ -279,54 +256,10 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                     child: Text(
                                       schedule.genres,
                                       style: TextStyle(
-                                          color: Colors.white),
+                                          color: Colors.black),
                                     ),
                                   ),
                                   const SizedBox(height: 5),
-                                  DelayedDisplay(
-                                    delay: const Duration(microseconds: 700),
-                                    child: Row(
-                                      children: [
-                                        IconTheme(
-                                          data: const IconThemeData(
-                                            color: Colors.amber,
-                                            size: 20,
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: List.generate(5, (index) {
-                                              return Icon(
-                                                index < schedule.imdb_rating! ? CupertinoIcons.star_fill : CupertinoIcons.star, //schedule.imdb_rating
-                                                color: Colors.amber,
-                                                size: 16,
-                                              );
-                                            }),
-                                          ),
-                                        ),
-                                        Text(
-                                          "  " +
-                                              schedule.imdb_rating!.toString() +
-                                              "/10",
-                                          style: TextStyle(
-                                            color: Colors.amber,
-                                            letterSpacing: 1.2,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  // DelayedDisplay(
-                                  //   delay: const Duration(microseconds: 800),
-                                  //   child: LikeButton(
-                                  //     id: schedule.tmdbId,
-                                  //     title: schedule.title,
-                                  //     rate: schedule.rateing,
-                                  //     poster: schedule.poster,
-                                  //     type: 'MOVIE',
-                                  //     date: schedule.releaseDate,
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -345,20 +278,20 @@ class MovieDetailScreenWidget extends StatelessWidget {
                                 delay: const Duration(microseconds: 800),
                                 child: Text("Mô tả",
                                     style:
-                                    TextStyle(color: Colors.white))),
+                                    TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold))),
                             const SizedBox(height: 10),
                             DelayedDisplay(
                               delay: const Duration(microseconds: 1000),
                               child: ReadMoreText(
                                 schedule.overview!, //overview
-                                trimLines: 6,
-                                colorClickableText: Colors.pink,
+                                trimLines: 4,
+                                colorClickableText: Color(0xffA12830),
                                 trimMode: TrimMode.Line,
-                                trimCollapsedText: 'more',
-                                trimExpandedText: 'less',
+                                trimCollapsedText: 'Xem thêm',
+                                trimExpandedText: 'Rút ngắn',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
                                 moreStyle: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
@@ -366,12 +299,77 @@ class MovieDetailScreenWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                    // if (trailers.isNotEmpty)
-                    //   TrailersWidget(
-                    //     trailers: trailers,
-                    //     backdrops: backdrops,
-                    //     backdrop: schedule.backdrops,
-                    //   ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                          child: Text(
+                            "Thông tin về vở diễn",
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 4, // Number of items including the header
+                          itemBuilder: (context, index) {
+                            switch (index) {
+                              case 0:
+                                return ListTile(
+                                  title: Text(
+                                    "Thời lượng",
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                  ),
+                                  subtitle: Text(
+                                    schedule.length! + " phút.",
+                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                  ),
+                                );
+                              case 1:
+                                return ListTile(
+                                  title: Text(
+                                    "Biên kịch",
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                  ),
+                                  subtitle: Text(
+                                    schedule.director,
+                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                  ),
+                                );
+                              case 2:
+                                return ListTile(
+                                  title: Text(
+                                    "Đạo diễn",
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                  ),
+                                  subtitle: Text(
+                                    schedule.director,
+                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                  ),
+                                );
+                              case 3:
+                                return ListTile(
+                                  title: Text(
+                                    "Thời gian bắt đầu",
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                  ),
+                                  subtitle: Text(
+                                    DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!),
+                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                  ),
+                                );
+                              default:
+                                return Container(); // Return empty container for any other index
+                            }
+                          },
+                          separatorBuilder: (context, index) => Divider(
+                            color: Colors.black, // Set the color of the divider to black
+                            thickness: 1, // Adjust thickness as needed
+                          ),
+                        ),
+                      ],
+                    ),
                     if (schedule.cast.length > 0)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,77 +378,13 @@ class MovieDetailScreenWidget extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(14.0),
                             child: Text("Diễn viên",
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold)),
                           ),
                           // CastList(
                           //   castList: castList,
                           // ),
                         ],
                       ),
-                    ExpandableGroup(
-                      isExpanded: true,
-                      expandedIcon: Icon(
-                        Icons.arrow_drop_up,
-                        color: Colors.white != Colors.white
-                            ? Colors.black
-                            : Colors.white,
-                      ),
-                      collapsedIcon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white != Colors.white
-                            ? Colors.black
-                            : Colors.white,
-                      ),
-                      header: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                        child: Text(
-                          "Thông tin về vở diễn",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      items: [
-                        ListTile(
-                            title: Text(
-                              "Thời lượng",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16),
-                            ),
-                            subtitle: Text(
-                              schedule.length! + " phút.",
-                              style: TextStyle(color: Colors.white),
-                            )),
-                        ListTile(
-                            title: Text(
-                              "Biên kịch",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16),
-                            ),
-                            subtitle: Text(
-                              schedule.director,
-                              style: TextStyle(color: Colors.white),
-                            )),
-                        ListTile(
-                            title: Text(
-                              "Đạo diễn",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16),
-                            ),
-                            subtitle: Text(
-                              schedule.director,
-                              style: TextStyle(color: Colors.white),
-                            )),
-                        ListTile(
-                            title: Text(
-                              "Thời gian bắt đầu",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16),
-                            ),
-                            subtitle: Text(
-                              DateFormat('HH:MM, dd/MM/yyyy').format(schedule.released_on!),
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      ],
-                    ),
                   ],
                 ),
               ],
@@ -500,7 +434,7 @@ class CreateIcons extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.black.withOpacity(.5),
+              color: Colors.white.withOpacity(.5),
             ),
             child: InkWell(onTap: onTap, child: child),
           ),

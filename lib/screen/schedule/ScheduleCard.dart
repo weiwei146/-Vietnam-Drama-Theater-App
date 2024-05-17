@@ -87,7 +87,7 @@ class ScheduleCard extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                             ),
                             TextSpan(
-                              text: '${DateFormat('HH:MM, dd/MM/yyyy').format(schedule.released_on!)}',
+                              text: '${DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!)}',
                               style: TextStyle(color: Colors.black),
                             ),
                           ],

@@ -47,7 +47,7 @@ class BottomInfoSheet extends StatelessWidget {
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 100),
                   child: Container(
-                    color: Colors.black87.withOpacity(.7),
+                    color: Colors.white54.withOpacity(.7),
                     child: ListView(
                       controller: con,
                       children: child,
