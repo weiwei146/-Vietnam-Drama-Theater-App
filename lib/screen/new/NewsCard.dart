@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../interface/SizeConfig.dart';
 import 'new.dart';
+import 'NewsDetailScreen.dart';
 
 
 class NewsCard extends StatelessWidget {
@@ -16,7 +17,12 @@ class NewsCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: SizeConfig.smallPadding),
         child: GestureDetector(
           onTap: () {
-            // Xử lý sự kiện khi nhấn vào thẻ
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NewsDetailScreen(newsItem: newsItem),
+              ),
+            );
           },
           child: Container(
             decoration: BoxDecoration(
@@ -57,7 +63,7 @@ class NewsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: SizeConfig.screenWidth! * 0.55,
+                        width: SizeConfig.screenWidth! * 0.5,
                         child: Text(
                           newsItem.title,
                           style: TextStyle(

@@ -22,13 +22,15 @@ import 'NewsCard.dart'; // Import NewsCard
 class NewsItem {
   final String title;
   final String imageUrl;
+  final String content;
 
-  NewsItem({required this.title, required this.imageUrl});
+  NewsItem({required this.title, required this.imageUrl, required this.content});
 
   factory NewsItem.fromDocument(DocumentSnapshot doc) {
     return NewsItem(
       title: doc['title'],
       imageUrl: doc['imageUrl'],
+      content: doc['content'],
     );
   }
 }
