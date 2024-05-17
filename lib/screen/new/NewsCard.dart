@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../interface/SizeConfig.dart';
 import 'new.dart';
+import 'NewsDetailScreen.dart';
 
 
 class NewsCard extends StatelessWidget {
@@ -16,7 +17,12 @@ class NewsCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: SizeConfig.smallPadding),
         child: GestureDetector(
           onTap: () {
-            // Xử lý sự kiện khi nhấn vào thẻ
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NewsDetailScreen(newsItem: newsItem),
+              ),
+            );
           },
           child: Container(
             decoration: BoxDecoration(
