@@ -21,7 +21,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     final User? user = AuthenticationRepository.instance.firebaseUser.value;
-    var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    // var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,7 +31,7 @@ class _SettingsState extends State<Settings> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(isDark ? LineAwesomeIcons.sun : LineAwesomeIcons.moon),
+            icon: Icon(true ? LineAwesomeIcons.sun : LineAwesomeIcons.moon),
           ),
         ],
       ),

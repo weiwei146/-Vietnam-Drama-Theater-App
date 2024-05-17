@@ -1,9 +1,5 @@
-﻿import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:english_words/english_words.dart';
+﻿import 'package:english_words/english_words.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namer_app/repository/authentication_repository/authentication_repository.dart';
@@ -18,7 +14,6 @@ void main() async {
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
   runApp(MyApp());
-
 }
 
 class MyApp extends StatelessWidget {

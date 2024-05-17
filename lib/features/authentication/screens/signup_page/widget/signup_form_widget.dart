@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:namer_app/constants/sizes.dart';
 import 'package:namer_app/features/authentication/controllers/signup_controller.dart';
 
+import '../../../models/user_model.dart';
+
 class SignUpFormWidget extends StatelessWidget {
   const SignUpFormWidget({
     Key? key,
@@ -11,16 +13,16 @@ class SignUpFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignUpController());
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              controller: controller.displayName,
+              controller: controller.name,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.person_outline_rounded),
                 labelText: "Tên đăng nhập",
@@ -48,7 +50,7 @@ class SignUpFormWidget extends StatelessWidget {
             ),
             const SizedBox(height: tFormHeight - 22),
             TextFormField(
-              controller: controller.phoneNo,
+              controller: controller.phoneNumber,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.email_outlined),
                 labelText: "Số điện thoại",
@@ -79,11 +81,17 @@ class SignUpFormWidget extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      SignUpController.instance.registerUser(
-                          controller.email.text.trim(),
-                          controller.password.text.trim());
+                    if (formKey.currentState!.validate()) {
+                      UserModel userModel = UserModel(
+                        name: controller.name.text,
+                        email: controller.email.text,
+                        phoneNumber: controller.phoneNumber.text,
+                        password: controller.password.text,
+                      );
+
+                      SignUpController.instance.createUser(userModel);
                     }
+                    ;
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red, // Màu nền đỏ
