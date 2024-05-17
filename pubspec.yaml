@@ -64,3 +64,7 @@ flutter:
     - assets/images/splash.png
     - assets/images/google.png
     - assets/images/greeting.png
+    - assets/images/svg_selected_bus_seats.svg
+    - assets/images/svg_disabled_bus_seat.svg
+    - assets/images/svg_sold_bus_seat.svg
+    - assets/images/svg_unselected_bus_seat.svg
