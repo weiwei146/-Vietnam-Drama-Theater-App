@@ -5,18 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:namer_app/utlis/database/SlotDB.dart';
 import '../schedule/scheduleDetails/ScheduleDetails.dart';
 
 
 class BookingScreen extends StatefulWidget {
   final BuildContext context;
-  final Set<SeatNumber>selectedSeats;
   final String title;
+  final Set<SeatNumber> soldSeats;
   const BookingScreen({
     Key? key,
     required this.context,
-    required this.selectedSeats,
     required this.title,
+    required this.soldSeats,
   }) : super(key: key);
 
   @override
@@ -25,6 +26,8 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> {
   Set<SeatNumber> selectedSeats = Set();
+  Set<SeatNumber> soldSeats = Set();
+  late List<List<SeatState>> currentListState;
   late String title;
   int payment = 0;
   void updatePayment() {
@@ -34,11 +37,14 @@ class _BookingScreenState extends State<BookingScreen> {
     });
   }
 
+
+
   @override
   void initState() {
     // Initialize selectedSeats with the value passed from the widget
-    selectedSeats = widget.selectedSeats;
     title = widget.title;
+    soldSeats = widget.soldSeats;
+    currentListState = SlotDB.generateListState(10, 10, soldSeats);
     super.initState();
   }
 
@@ -184,7 +190,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                 }
                               updatePayment();
                             },
-                            stateModel: const SeatLayoutStateModel(
+                            stateModel: SeatLayoutStateModel(
                               pathDisabledSeat: 'assets/images/svg_disabled_bus_seat.svg',
                               pathSelectedSeat: 'assets/images/svg_selected_bus_seats.svg',
                               pathSoldSeat: 'assets/images/svg_sold_bus_seat.svg',
@@ -192,128 +198,7 @@ class _BookingScreenState extends State<BookingScreen> {
                               rows: 10,
                               cols: 10,
                               seatSvgSize: 40,
-                              currentSeatsState: [
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                                [
-                                  SeatState.sold,
-                                  SeatState.sold,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.unselected,
-                                  SeatState.sold,
-                                ],
-                              ],
+                              currentSeatsState: currentListState,
                             ),
                           ),
                         ),
@@ -442,4 +327,6 @@ class SeatNumber {
   String toString() {
     return '${rows[rowI]}$colI';
   }
+
+
 }

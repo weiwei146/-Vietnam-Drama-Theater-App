@@ -7,12 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
 import 'package:intl/intl.dart';
+import 'package:namer_app/utlis/database/SlotDB.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../utlis/animation.dart';
 import 'BottomInfoSheet.dart';
-import 'copyLink.dart';
 
 class ScheduleDetails extends StatefulWidget {
   final Schedule schedule;
@@ -28,8 +27,12 @@ class ScheduleDetails extends StatefulWidget {
 }
 
 class _ScheduleDetailsState extends State<ScheduleDetails> {
-  Set<SeatNumber> selectedSeats = Set();
-
+  late Set<SeatNumber> soldSeat;
+  @override
+  void initState() {
+    super.initState();
+    soldSeat = SlotDB.getSlotsByMovieID(widget.schedule.id!);
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -55,7 +58,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BookingScreen(context: context, selectedSeats: selectedSeats, title: widget.schedule.title!,)),
+                  MaterialPageRoute(builder: (context) => BookingScreen(context: context, soldSeats: soldSeat, title: widget.schedule.title!,)),
                 );
               },
               child: Padding(

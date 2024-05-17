@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 
 import '../../screen/interface/Schedule.dart';
@@ -30,6 +29,7 @@ class ScheduleDB {
               webURL: docSnapshot.data()['webURL']);
           allSchedules.add(schedule);
         }
+        print(allSchedules.length);
         return allSchedules;
       },
       onError: (e) => print("Error completing: $e"),
