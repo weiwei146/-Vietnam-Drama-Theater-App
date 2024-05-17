@@ -63,7 +63,7 @@ class NewsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: SizeConfig.screenWidth! * 0.55,
+                        width: SizeConfig.screenWidth! * 0.5,
                         child: Text(
                           newsItem.title,
                           style: TextStyle(
