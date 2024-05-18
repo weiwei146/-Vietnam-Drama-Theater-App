@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          title: Text('Login'),
+          title: Text('Đăng nhập'),
         ),
         body: SingleChildScrollView(
           child: Container(

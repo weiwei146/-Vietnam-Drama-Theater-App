@@ -38,14 +38,14 @@ class _LoginFormState extends State<LoginForm> {
             TextFormField(
               controller: controller.password,
               validator: (value) {
-                if (value!.isEmpty) return 'Enter your password';
+                if (value!.isEmpty) return 'Nhập mật khẩu';
                 return null;
               },
               obscureText: !showPassword,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.fingerprint),
-                labelText: "Password",
-                hintText: "Password",
+                labelText: "Mật khẩu",
+                hintText: "Mật khẩu",
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {

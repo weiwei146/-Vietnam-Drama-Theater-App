@@ -19,7 +19,7 @@ class SignUpScreen extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          title: Text('Sign Up'),
+          title: Text('Đăng ký'),
         ),
         body: SingleChildScrollView(
           child: Container(
