@@ -59,60 +59,82 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _buildNotLoggedInView(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(tDefaultSize - 10),
-        child: Column(
-          children: [
-            Center(
-              child: OutlinedButton(
-                onPressed: () {
-                  Get.to(() => LoginScreen());
-                },
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 17, horizontal: 20),
-                  side: BorderSide(color: Colors.red),
-                ),
-                child: Text(
-                  "ĐĂNG NHẬP",
-                  style: GoogleFonts.montserrat(
-                    color: Colors.red,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+    return Stack(
+      children: [
+        // Background image
+        Image.network(
+          'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg',
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+        // Blur effect
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              color: Colors.black.withOpacity(0.2),
             ),
-            const SizedBox(height: 30),
-            const Divider(),
-            const SizedBox(height: 10),
-            Column(
+          ),
+        ),
+        // Main content
+        SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(tDefaultSize - 10),
+            child: Column(
               children: [
-                ProfileMenuWidget(
-                  title: "Cài đặt hệ thống",
-                  icon: LineAwesomeIcons.cog,
-                  onPress: () {},
+                Center(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Get.to(() => LoginScreen());
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 17, horizontal: 20),
+                      side: BorderSide(color: Colors.red),
+                    ),
+                    child: Text(
+                      "ĐĂNG NHẬP",
+                      style: GoogleFonts.montserrat(
+                        color: Colors.red,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ),
-                ProfileMenuWidget(
-                  title: "Thông tin thanh toán",
-                  icon: LineAwesomeIcons.wallet,
-                  onPress: () {},
-                ),
+                const SizedBox(height: 30),
                 const Divider(),
                 const SizedBox(height: 10),
-                ProfileMenuWidget(
-                  title: "Thông tin ứng dụng",
-                  icon: LineAwesomeIcons.info,
-                  onPress: () {},
+                Column(
+                  children: [
+                    ProfileMenuWidget(
+                      title: "Cài đặt hệ thống",
+                      icon: LineAwesomeIcons.cog,
+                      onPress: () {},
+                    ),
+                    ProfileMenuWidget(
+                      title: "Thông tin thanh toán",
+                      icon: LineAwesomeIcons.wallet,
+                      onPress: () {},
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    ProfileMenuWidget(
+                      title: "Thông tin ứng dụng",
+                      icon: LineAwesomeIcons.info,
+                      onPress: () {},
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -131,7 +153,7 @@ class _SettingsState extends State<Settings> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Container(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.black.withOpacity(0.2),
             ),
           ),
         ),
@@ -167,7 +189,7 @@ class _SettingsState extends State<Settings> {
                               ),
                               child: const Icon(
                                 LineAwesomeIcons.alternate_pencil,
-                                color: Colors.white,
+                                color: Colors.black,
                                 size: 20,
                               ),
                             ),
@@ -184,7 +206,7 @@ class _SettingsState extends State<Settings> {
                       ),
                       Text(
                         '${user.email}',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
@@ -240,7 +262,7 @@ class _SettingsState extends State<Settings> {
                     ProfileMenuWidget(
                       title: "Đăng xuất",
                       icon: LineAwesomeIcons.alternate_sign_out,
-                      textColor: Colors.white,
+                      textColor: Colors.red,
                       endIcon: false,
                       onPress: () {
                         Get.defaultDialog(
