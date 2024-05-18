@@ -4,7 +4,7 @@ import 'library.dart';
 import 'package:namer_app/screen/library/videoYoutube.dart';
 
 class ShowListVideo extends StatelessWidget {
-  final List<VideoItem> itemList;
+  final List<Library> itemList;
 
   const ShowListVideo({Key? key, required this.itemList}) : super(key: key);
   @override
@@ -47,7 +47,7 @@ class ShowListVideo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: 20.0),
-                  ...itemList.map((item) => buildVideo(item.url, item.title)).toList(),
+                  ...itemList.where((item) => item.type == "video").map((item) => buildVideo(item.url, item.title)).toList(),
                 ],
               ),
             ),

@@ -4,83 +4,24 @@ import 'package:namer_app/screen/library/showListPaper.dart';
 import 'package:namer_app/screen/library/showListVideo.dart';
 import 'dart:ui';
 import 'package:namer_app/screen/library/videoYoutube.dart';
-import 'package:namer_app/screen/schedule/searchBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class ImageLibrary {
+class Library {
   final String title;
   final String url;
+  final String type;
 
-  ImageLibrary({required this.url, required this.title});
-//
-// factory ImgLibary.fromDocument(DocumentSnapshot doc) {
-//   return ImgLibary(
-//     title: doc['title'],
-//     imageUrl: doc['imageUrl'],
-//     content: doc['content'],
-//   );
-// }
+  Library({required this.url, required this.title, required this.type});
+
+factory Library.fromDocument(DocumentSnapshot doc) {
+  return Library(
+    title: doc['title'],
+    url: doc['url'],
+    type: doc['type'],
+  );
 }
-
-
-List<ImageLibrary> imageList = [
-  ImageLibrary(
-    url: 'https://file.hstatic.net/200000370191/article/eef809c870b8bee6e7a924_39668d0d684b4f9bbe6040c58c2f4f9f.jpg',
-    title: 'NSƯT XUÂN BẮC - GIÁM ĐỐC NHÀ HÁT KỊCH VIỆT NAM GỬI LỜI CHÚC TẾT 2022',
-  ),
-  ImageLibrary(
-    url: 'https://file.hstatic.net/200000370191/article/pano_ctd_123_47eda5a3e73f4381b013e755ff56ceec.jpg',
-    title: '"CHÉN THUỐC ĐỘC" - NHÀ HÁT KỊCH VIỆT NAM THAM GIA VỞ DIỄN KỶ NIỆM 100 NĂM SÂN KHẤU KỊCH NÓI VIỆT NAM',
-  ),
-  ImageLibrary(
-    url: 'https://file.hstatic.net/200000370191/article/dang_tin_ng_tot_nha_so_5_1a57f4954ccd4f6bbb985effd6b02a04.jpg',
-    title: 'CẢM NHẬN CỦA KHÁN GIẢ KHI XEM "NGƯỜI TỐT NHÀ SỐ 5"',
-  ),
-  ImageLibrary(
-    url: 'https://file.hstatic.net/200000370191/article/dsc00910_5a6df2ac291c406e88566b358b916f34.jpg',
-    title: 'NHÀ HÁT KỊCH VIỆT NAM - LIÊN HOAN KỊCH NÓI 2021',
-  ),
-];
-
-class VideoItem {
-  final String title;
-  final String url;
-
-  VideoItem({required this.title, required this.url});
 }
-
-List<VideoItem> videoItems = [
-  VideoItem(
-    title: "Đôi mắt - vở diễn của Nhà Hát kịch HN",
-    url: "https://www.youtube.com/watch?v=ShCuv1Osr9w",
-  ),
-  VideoItem(
-    title: "TRAILER VỞ KỊCH 'ĐÊM TRẮNG'",
-    url: "https://www.youtube.com/watch?v=BpXByY1npVM",
-  ),
-];
-
-class PDFLibrary {
-  final String title;
-  final String url;
-
-  PDFLibrary({required this.url, required this.title});
-//
-// factory ImgLibary.fromDocument(DocumentSnapshot doc) {
-//   return ImgLibary(
-//     title: doc['title'],
-//     imageUrl: doc['imageUrl'],
-//     content: doc['content'],
-//   );
-// }
-}
-
-List<PDFLibrary> pdfItems = [
-  PDFLibrary(
-    title: "Tài liệu về nghệ sĩ",
-    url: 'https://play-lh.googleusercontent.com/dl4ZuJhfD5xR9m2H-oZ9UcLZwYmGpmWMurPrvTiN831ZWLia9NbrYurXV-32wtOzPmM5',
-  ),
-];
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({super.key});
@@ -94,27 +35,46 @@ class _LibraryScreenState extends State<LibraryScreen> {
   final TextEditingController searchController = TextEditingController();
   final List allItems = [];
   final List items = [];
+  final List<Library> libraryItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNewsItems();
+  }
+
+  void fetchNewsItems() async {
+    FirebaseFirestore.instance.collection('library').get().then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          libraryItems.add(Library.fromDocument(doc));
+        });
+      });
+    }).catchError((error) {
+      print('Error fetching news items: $error');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: allItems.isEmpty
-      //     ? Center(
-      //   child: CircularProgressIndicator(),
-      // )
-      body: Stack(
+      body: libraryItems.isEmpty
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+      : Stack(
         children: [
           Image.network(
-            'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg', // Replace with your image URL
+            'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
           ),
           Positioned.fill(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Adjust blur intensity as needed
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Container(
-                color: Colors.white.withOpacity(0.2), // Adjust opacity as needed
+                color: Colors.white.withOpacity(0.2),
               ),
             ),
           ),
@@ -127,7 +87,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   controller: searchController,
                   leading: IconButton(
                     onPressed: () {
-                      // Handle leading icon button press
+
                     },
                     icon: Icon(Icons.search),
                   ),
@@ -160,7 +120,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
                               SizedBox(width: 10.0),
-                              ...imageList.map((item) => Padding(
+                              ...libraryItems.where((item) => item.type == "image").map((item) => Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: buildImage(item.url, item.title),
                               )).toList(),
@@ -171,7 +131,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ShowList(itemList: imageList)),
+                                    MaterialPageRoute(builder: (context) => ShowList(itemList: libraryItems)),
                                   );
                                 },
                                 icon: const Icon(Icons.add),
@@ -201,7 +161,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
                               SizedBox(width: 10.0),
-                              ...videoItems.map((item) => Padding(
+                              ...libraryItems.where((item) => item.type == "video").map((item) => Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: buildVideo(item.url, item.title),
                               )).toList(),
@@ -212,7 +172,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ShowListVideo(itemList: videoItems)),
+                                    MaterialPageRoute(builder: (context) => ShowListVideo(itemList: libraryItems)),
                                   );
                                 },
                                 icon: const Icon(Icons.add),
@@ -242,7 +202,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
                               SizedBox(width: 10.0),
-                              ...pdfItems.map((item) => Padding(
+                              ...libraryItems.where((item) => item.type == "paper").map((item) => Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: buildPdf(item.url, item.title),
                               )).toList(),
@@ -253,7 +213,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ShowListPaper(itemList: pdfItems)),
+                                    MaterialPageRoute(builder: (context) => ShowListPaper(itemList: libraryItems)),
                                   );
                                 },
                                 icon: const Icon(Icons.add),

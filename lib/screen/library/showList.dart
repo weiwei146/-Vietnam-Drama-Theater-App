@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'library.dart';
 
 class ShowList extends StatelessWidget {
-  final List<ImageLibrary> itemList;
+  final List<Library> itemList;
 
   const ShowList({Key? key, required this.itemList}) : super(key: key);
   @override
@@ -46,7 +46,7 @@ class ShowList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: 20.0),
-                  ...itemList.map((item) => buildImage(item.url, item.title)).toList(),
+                  ...itemList.where((item) => item.type == "image").map((item) => buildImage(item.url, item.title)).toList(),
                 ],
               ),
             ),

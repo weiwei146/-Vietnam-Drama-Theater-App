@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'library.dart';
 
 class ShowListPaper extends StatelessWidget {
-  final List<PDFLibrary> itemList;
+  final List<Library> itemList;
 
   const ShowListPaper({Key? key, required this.itemList}) : super(key: key);
   @override
@@ -46,7 +46,7 @@ class ShowListPaper extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: 20.0),
-                  ...itemList.map((item) => buildPdf(context, item.url, item.title)).toList(),
+                  ...itemList.where((item) => item.type == "paper").map((item) => buildPdf(context, item.url, item.title)).toList(),
                 ],
               ),
             ),

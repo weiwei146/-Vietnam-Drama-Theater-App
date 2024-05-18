@@ -25,7 +25,7 @@ class Introduction extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => Schedule()), // Thay thế 'LibraryPage()' bằng tên của trang thư viện của bạn
                   );
                 },
-                child: Container(
+                child: Center(
                   child: SizedBox(
                     width: 400,
                     child: Column(
@@ -78,7 +78,7 @@ class Introduction extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => NewScreen()), // Thay thế 'LibraryPage()' bằng tên của trang thư viện của bạn
                   );
                 },
-                child: Container(
+                child: Center(
                   child: SizedBox(
                     width: 400,
                     child: Column(
@@ -131,7 +131,7 @@ class Introduction extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => Schedule()), // Thay thế 'LibraryPage()' bằng tên của trang thư viện của bạn
                   );
                 },
-                child: Container(
+                child: Center(
                   child: SizedBox(
                     width: 400,
                     child: Column(
