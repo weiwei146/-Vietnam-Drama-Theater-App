@@ -35,7 +35,7 @@ class ProfileMenuWidget extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-          color: textColor ?? Colors.black,
+          color: textColor ?? Colors.white,
           fontWeight: FontWeight.w500,
           fontSize: 16.0,
         ),
@@ -44,7 +44,7 @@ class ProfileMenuWidget extends StatelessWidget {
           ? Icon(
               LineAwesomeIcons.angle_right,
               size: 18.0,
-              color: Colors.grey,
+              color: Colors.white,
             )
           : null,
     );

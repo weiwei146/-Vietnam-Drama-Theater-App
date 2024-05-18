@@ -7,7 +7,6 @@ import 'package:namer_app/screen/setting/profile/update_password.dart';
 import 'package:namer_app/screen/setting/profile/update_profile.dart';
 import 'package:namer_app/screen/setting/profile/widget/profile_menu.dart';
 
-import '../../../common/widget/appbar.dart';
 import '../../../common/widget/section_heading.dart';
 import '../../../features/authentication/controllers/profile_controller.dart';
 import '../../../features/authentication/models/user_model.dart';
@@ -29,13 +28,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TAppBar(
-        title: const Text('Hồ sơ'),
-        showBackArrow: true,
-        backOnPress: () {
-          widget.didPop();
-          Get.back();
-        },
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text('Xem hồ sơ'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -109,27 +109,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       const Divider(color: Colors.redAccent),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       const TSectionHeading(
                         title: 'Thông tin hồ sơ',
                         showActionButton: false,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       TProfileMenu(
                         onPressed: () {},
                         title: 'Tên đầy đủ',
                         value: data.name,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       const Divider(color: Colors.redAccent),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       const TSectionHeading(
                         title: 'Thông tin cá nhân',
                         showActionButton: false,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       TProfileMenu(
                         onPressed: () {},
                         title: 'Email',
@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         value: '01/01/1970',
                       ),
                       const Divider(color: Colors.redAccent),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       Center(
                         child: TextButton(
                           onPressed: () {

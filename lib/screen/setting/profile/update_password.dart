@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../common/widget/appbar.dart';
 import '../../../features/authentication/controllers/profile_controller.dart';
 import '../../../features/authentication/models/user_model.dart';
 import '../../../utlis/validation.dart';
@@ -24,9 +23,14 @@ class _PasswordUpdateScreenState extends State<PasswordUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TAppBar(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Text('Đổi mật khẩu'),
-        showBackArrow: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -61,7 +65,7 @@ class _PasswordUpdateScreenState extends State<PasswordUpdateScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
-                                  label: const Text('Old Password'),
+                                  label: const Text('Mật khẩu cũ'),
                                   prefixIcon:
                                       const Icon(Iconsax.password_check),
                                   suffixIcon: IconButton(
@@ -86,7 +90,7 @@ class _PasswordUpdateScreenState extends State<PasswordUpdateScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
-                                  label: const Text('New Password'),
+                                  label: const Text('Mật khẩu mới'),
                                   prefixIcon:
                                       const Icon(Iconsax.password_check),
                                   suffixIcon: IconButton(
@@ -113,7 +117,7 @@ class _PasswordUpdateScreenState extends State<PasswordUpdateScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
-                                  label: const Text('Retype Password'),
+                                  label: const Text('Xác nhận mật khẩu mới'),
                                   prefixIcon:
                                       const Icon(Iconsax.password_check),
                                   suffixIcon: IconButton(
@@ -165,7 +169,7 @@ class _PasswordUpdateScreenState extends State<PasswordUpdateScreen> {
                     ],
                   );
                 } else {
-                  return const Center(child: Text('User data not found'));
+                  return const Center(child: Text('Người dùng không tồn tại'));
                 }
               }
               return const Center(child: CircularProgressIndicator());
