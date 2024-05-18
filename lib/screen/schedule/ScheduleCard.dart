@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/schedule/scheduleDetails/ScheduleDetails.dart';
 import '../interface/Schedule.dart';
 import '../interface/SizeConfig.dart';
 import 'package:intl/intl.dart';
-
+import '../review/review.dart';
 
 class ScheduleCard extends StatelessWidget {
   final Schedule schedule;
@@ -23,6 +25,12 @@ class ScheduleCard extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => ScheduleDetails(context: context, schedule: schedule)),
             );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => ReviewScreen(dramaId: schedule.id.toString()),
+            //   ),
+            // );
           },
         child: Container(
             decoration: BoxDecoration(
