@@ -19,6 +19,7 @@ import 'NewsCard.dart'; // Import NewsCard
 //   }
 // }
 
+
 class NewsItem {
   final String title;
   final String imageUrl;
