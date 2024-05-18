@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:namer_app/features/authentication/controllers/signin_controller.dart';
+import 'package:namer_app/features/authentication/screens/forgot_password/forgot_password_screen.dart';
 import 'package:namer_app/features/authentication/screens/forgot_password/widget/forgot_password_widget.dart';
 
 import '../../../../../constants/sizes.dart';
-import '../../../../../screen/introduction/home.dart';
-import '../../../controllers/signin_controller.dart';
-import '../../forgot_password/forgot_password_screen.dart';
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({
-    Key? key,
-  }) : super(key: key);
+class LoginForm extends StatefulWidget {
+  const LoginForm({Key? key}) : super(key: key);
+
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final controller = Get.put(SignInController());
+  bool showPassword = false;
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SignInController());
-    bool showPassword =
-        false; // Tạo một biến để lưu trạng thái hiển thị mật khẩu
-
     return Form(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: tFormHeight - 10),
@@ -40,16 +41,16 @@ class LoginForm extends StatelessWidget {
                 if (value!.isEmpty) return 'Enter your password';
                 return null;
               },
-              obscureText:
-                  !showPassword, // Sử dụng biến showPassword để quyết định việc hiển thị mật khẩu
+              obscureText: !showPassword,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.fingerprint),
                 labelText: "Password",
                 hintText: "Password",
                 suffixIcon: IconButton(
                   onPressed: () {
-                    showPassword =
-                        !showPassword; // Đảo ngược trạng thái hiển thị mật khẩu khi người dùng nhấn vào
+                    setState(() {
+                      showPassword = !showPassword;
+                    });
                   },
                   icon: Icon(
                     showPassword ? Icons.visibility : Icons.visibility_off,
@@ -68,7 +69,6 @@ class LoginForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.0)),
                     builder: (context) => Container(
                       padding: const EdgeInsets.all(tDefaultSize),
-                      // height: MediaQuery.of(context).size.height * 0.4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -111,8 +111,9 @@ class LoginForm extends StatelessWidget {
                 onPressed: () async {
                   await controller.signIn(
                       controller.email.text, controller.password.text);
-                  Get.off(() => const Home());
-                }, // Gọi hàm login từ controller khi người dùng nhấn vào nút "Đăng nhập
+                  Navigator.of(context).pop(true);
+                  // Return login success
+                },
                 child: Text(
                   "Đăng nhập".toUpperCase(),
                   style: Theme.of(context).textTheme.labelMedium,

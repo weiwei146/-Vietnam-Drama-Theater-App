@@ -4,17 +4,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:namer_app/features/authentication/controllers/settings_controller.dart';
 import 'package:namer_app/features/authentication/models/user_model.dart';
-import 'package:namer_app/screen/introduction/home.dart';
+import 'package:namer_app/screen/setting/profile/profile.dart';
 import 'package:namer_app/screen/setting/widget/profile_widget.dart';
 
-import '../../constants/image_strings.dart';
-import '../../constants/sizes.dart';
-import '../../features/authentication/screens/login_page/login_page.dart';
-import '../../repository/authentication_repository/authentication_repository.dart';
+import '../../../constants/image_strings.dart';
+import '../../../constants/sizes.dart';
+import '../../../features/authentication/screens/login_page/login_page.dart';
+import '../../../repository/authentication_repository/authentication_repository.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
   final SettingsController _settingsController = Get.put(SettingsController());
-
+  int id = 0;
+  @override
+  _SettingsState createState() => _SettingsState();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,14 +126,13 @@ class Settings extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 20),
                   Stack(
                     children: [
                       SizedBox(
-                        width: 120,
-                        height: 120,
+                        width: 140,
+                        height: 140,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(120),
                           child: Image.asset(theaterSplashImage),
                         ),
                       ),
@@ -162,7 +168,9 @@ class Settings extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Get.to(() => UpdateProfileScreen());
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         side: BorderSide.none,
@@ -187,12 +195,16 @@ class Settings extends StatelessWidget {
             Column(
               children: [
                 ProfileMenuWidget(
-                  title: "Cài đặt hệ thống",
+                  title: "Xem hồ sơ",
                   icon: LineAwesomeIcons.cog,
-                  onPress: () {},
+                  onPress: () {
+                    Get.to(() => ProfileScreen(
+                          didPop: () {},
+                        ));
+                  },
                 ),
                 ProfileMenuWidget(
-                  title: "Thông tin thanh toán",
+                  title: "Phương thức thanh toán",
                   icon: LineAwesomeIcons.wallet,
                   onPress: () {},
                 ),
@@ -219,7 +231,7 @@ class Settings extends StatelessWidget {
                       confirm: ElevatedButton(
                         onPressed: () {
                           AuthenticationRepository.instance.logout();
-                          Get.off(() => Home());
+                          Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.redAccent,
@@ -240,5 +252,14 @@ class Settings extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void refreshData() {
+    id++;
+  }
+
+  onGoBack(dynamic value) {
+    refreshData();
+    setState(() {});
   }
 }

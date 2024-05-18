@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,6 +50,38 @@ class UserRepository extends GetxController {
 
     final userData = snapshot.docs.map((e) => UserModel.fromSnapShot(e)).single;
     return userData;
+  }
+
+  Future<void> updatePassword(UserModel userModel) async {
+    await FirebaseAuth.instance.currentUser!
+        .updatePassword(userModel.password!);
+  }
+
+  Future<void> updateUserDetail(UserModel userModel) async {
+    await _db
+        .collection('users')
+        .doc(userModel.id)
+        .update(userModel.toJson())
+        .whenComplete(() => Get.snackbar(
+              "Thành công",
+              "Tài khoản của bạn đã được cập nhật",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.green.withOpacity(0.1),
+              colorText: Colors.green,
+              duration: const Duration(seconds: 1),
+            ))
+        .catchError((error, stacktrace) {
+      () => Get.snackbar(
+            'Lỗi',
+            'Có gì đó không đúng, thử lại?',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.redAccent.withOpacity(0.1),
+            colorText: Colors.red,
+          );
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
   }
 
   createUser(UserModel userModel) async {
