@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../common/widget/appbar.dart';
 import '../../../features/authentication/controllers/profile_controller.dart';
 import '../../../features/authentication/models/user_model.dart';
 
@@ -21,14 +20,14 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TAppBar(
-        title: Text(
-          'Thay đổi thông tin',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
-        showBackArrow: true,
+        title: Text('Thay đổi thông tin'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -64,7 +63,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                             TextFormField(
                               controller: name,
                               decoration: const InputDecoration(
-                                label: Text('Name'),
+                                label: Text('Tên'),
                                 prefixIcon: Icon(Iconsax.user),
                               ),
                             ),
@@ -72,7 +71,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                             TextFormField(
                               controller: phoneNumber,
                               decoration: const InputDecoration(
-                                label: Text('PhoneNumber'),
+                                label: Text('Số điện thoại'),
                                 prefixIcon: Icon(Icons.phone),
                               ),
                             ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,9 +21,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final SettingsController _settingsController = Get.put(SettingsController());
-  int id = 0;
-  @override
-  _SettingsState createState() => _SettingsState();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,149 +117,164 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _buildLoggedInView(BuildContext context, UserModel user) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(tDefaultSize - 10),
-        child: Column(
-          children: [
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Stack(
+    return Stack(
+      children: [
+        // Background image
+        Image.network(
+          'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg',
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+        // Blur effect
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              color: Colors.white.withOpacity(0.2),
+            ),
+          ),
+        ),
+        // Main content
+        SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(tDefaultSize - 10),
+            child: Column(
+              children: [
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: 140,
-                        height: 140,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(120),
-                          child: Image.asset(theaterSplashImage),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 35,
-                          height: 35,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.red,
+                      Stack(
+                        children: [
+                          SizedBox(
+                            width: 140,
+                            height: 140,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(120),
+                              child: Image.asset(theaterSplashImage),
+                            ),
                           ),
-                          child: const Icon(
-                            LineAwesomeIcons.alternate_pencil,
-                            color: Colors.black,
-                            size: 20,
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              width: 35,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.red,
+                              ),
+                              child: const Icon(
+                                LineAwesomeIcons.alternate_pencil,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        '${user.name}',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        '${user.email}',
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Navigate to profile update screen
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            side: BorderSide.none,
+                            shape: const StadiumBorder(),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 20.0,
+                            ),
+                          ),
+                          child: Text(
+                            "Chỉnh sửa",
+                            style: Theme.of(context).textTheme.labelMedium!,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '${user.name}',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '${user.email}',
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Get.to(() => UpdateProfileScreen());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        side: BorderSide.none,
-                        shape: const StadiumBorder(),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 20.0,
-                        ),
-                      ),
-                      child: Text(
-                        "Chỉnh sửa",
-                        style: Theme.of(context).textTheme.labelMedium!,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Divider(),
-            const SizedBox(height: 10),
-            Column(
-              children: [
-                ProfileMenuWidget(
-                  title: "Xem hồ sơ",
-                  icon: LineAwesomeIcons.cog,
-                  onPress: () {
-                    Get.to(() => ProfileScreen(
-                          didPop: () {},
-                        ));
-                  },
                 ),
-                ProfileMenuWidget(
-                  title: "Phương thức thanh toán",
-                  icon: LineAwesomeIcons.wallet,
-                  onPress: () {},
-                ),
+                const SizedBox(height: 10),
                 const Divider(),
                 const SizedBox(height: 10),
-                ProfileMenuWidget(
-                  title: "Thông tin ứng dụng",
-                  icon: LineAwesomeIcons.info,
-                  onPress: () {},
-                ),
-                ProfileMenuWidget(
-                  title: "Đăng xuất",
-                  icon: LineAwesomeIcons.alternate_sign_out,
-                  textColor: Colors.red,
-                  endIcon: false,
-                  onPress: () {
-                    Get.defaultDialog(
+                Column(
+                  children: [
+                    ProfileMenuWidget(
+                      title: "Xem hồ sơ",
+                      icon: LineAwesomeIcons.cog,
+                      onPress: () {
+                        Get.to(() => ProfileScreen(
+                              didPop: () {},
+                            ));
+                      },
+                    ),
+                    ProfileMenuWidget(
+                      title: "Phương thức thanh toán",
+                      icon: LineAwesomeIcons.wallet,
+                      onPress: () {},
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    ProfileMenuWidget(
+                      title: "Thông tin ứng dụng",
+                      icon: LineAwesomeIcons.info,
+                      onPress: () {},
+                    ),
+                    ProfileMenuWidget(
                       title: "Đăng xuất",
-                      titleStyle: const TextStyle(fontSize: 20),
-                      content: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15.0),
-                        child: Text("Bạn chắc chắn muốn đăng xuất?"),
-                      ),
-                      confirm: ElevatedButton(
-                        onPressed: () {
-                          AuthenticationRepository.instance.logout();
-                          Navigator.of(context).pop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          side: BorderSide.none,
-                        ),
-                        child: const Text("Có"),
-                      ),
-                      cancel: OutlinedButton(
-                        onPressed: () => Get.back(),
-                        child: const Text("Không"),
-                      ),
-                    );
-                  },
+                      icon: LineAwesomeIcons.alternate_sign_out,
+                      textColor: Colors.white,
+                      endIcon: false,
+                      onPress: () {
+                        Get.defaultDialog(
+                          title: "Đăng xuất",
+                          titleStyle: const TextStyle(fontSize: 20),
+                          content: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15.0),
+                            child: Text("Bạn chắc chắn muốn đăng xuất?"),
+                          ),
+                          confirm: ElevatedButton(
+                            onPressed: () {
+                              AuthenticationRepository.instance.logout();
+                              Navigator.of(context).pop();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              side: BorderSide.none,
+                            ),
+                            child: const Text("Có"),
+                          ),
+                          cancel: OutlinedButton(
+                            onPressed: () => Get.back(),
+                            child: const Text("Không"),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
-  }
-
-  void refreshData() {
-    id++;
-  }
-
-  onGoBack(dynamic value) {
-    refreshData();
-    setState(() {});
   }
 }

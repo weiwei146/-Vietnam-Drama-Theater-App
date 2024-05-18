@@ -23,7 +23,7 @@ class TSectionHeading extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
-                .apply(color: textColor),
+                .apply(color: Colors.black),
             maxLines: 1,
             overflow: TextOverflow.ellipsis),
         if (showActionButton)
