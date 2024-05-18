@@ -2,50 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class ProfileMenuWidget extends StatelessWidget {
-  const ProfileMenuWidget({
-    Key? key,
-    required this.title,
-    required this.icon,
-    required this.onPress,
-    this.endIcon = true,
-    this.textColor,
-  }) : super(key: key);
-
   final String title;
   final IconData icon;
   final VoidCallback onPress;
-  final bool endIcon;
   final Color? textColor;
+  final bool endIcon;
+
+  ProfileMenuWidget({
+    required this.title,
+    required this.icon,
+    required this.onPress,
+    this.textColor,
+    this.endIcon = true,
+  });
 
   @override
   Widget build(BuildContext context) {
-    var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    var iconColor = isDark ? Colors.white : Colors.black87;
-
     return ListTile(
       onTap: onPress,
+      contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       leading: Container(
-        width: 40,
-        height: 40,
+        padding: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
+          color: Colors.red.withOpacity(0.1),
           borderRadius: BorderRadius.circular(100),
-          color: iconColor.withOpacity(0.1),
         ),
-        child: Icon(icon, color: iconColor),
+        child: Icon(
+          icon,
+          color: Colors.red,
+        ),
       ),
-      title: Text(title,
-          style:
-              Theme.of(context).textTheme.labelMedium?.apply(color: iconColor)),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: textColor ?? Colors.white,
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+        ),
+      ),
       trailing: endIcon
-          ? Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.grey.withOpacity(0.1),
-              ),
-              child: const Icon(LineAwesomeIcons.angle_right,
-                  size: 18.0, color: Colors.grey))
+          ? Icon(
+              LineAwesomeIcons.angle_right,
+              size: 18.0,
+              color: Colors.white,
+            )
           : null,
     );
   }

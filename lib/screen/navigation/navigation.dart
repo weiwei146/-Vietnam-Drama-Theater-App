@@ -4,7 +4,7 @@ import 'package:namer_app/screen/introduction/home.dart';
 import 'package:namer_app/screen/library/library.dart';
 import 'package:namer_app/screen/new/new.dart';
 import 'package:namer_app/screen/schedule/schedule.dart';
-import 'package:namer_app/screen/setting/settings.dart';
+import 'package:namer_app/screen/setting/profile/settings.dart';
 
 class Navigation extends StatefulWidget {
   @override

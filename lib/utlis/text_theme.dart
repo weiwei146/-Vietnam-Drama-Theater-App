@@ -16,7 +16,7 @@ class TheaterTextTheme {
     titleSmall: GoogleFonts.montserrat(
         color: Colors.black87, fontSize: 12, fontWeight: FontWeight.w500),
     labelMedium: GoogleFonts.montserrat(
-      color: Colors.white,
+      color: Colors.black,
       fontSize: 15,
       fontWeight: FontWeight.w700,
     ),
