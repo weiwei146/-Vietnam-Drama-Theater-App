@@ -26,6 +26,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.redAccent, // Set the background color to red
         title: Text(
           "Cài đặt",
           style: Theme.of(context).textTheme.titleMedium!,

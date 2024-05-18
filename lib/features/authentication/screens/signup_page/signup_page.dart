@@ -25,7 +25,7 @@ class SignUpScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(tDefaultSize),
             child: Column(
-              children: const [
+              children: [
                 FormHeaderWidget(
                   image: theaterLoginImage,
                   title: "ĐĂNG KÝ",

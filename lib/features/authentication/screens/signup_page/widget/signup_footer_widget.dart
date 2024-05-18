@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../controllers/signin_controller.dart';
 import '../../login_page/login_page.dart'; // Import màn hình đăng nhập
 
 class SignUpFooterWidget extends StatelessWidget {
-  const SignUpFooterWidget({
+  SignUpFooterWidget({
     Key? key,
   }) : super(key: key);
+  final controller = Get.put(SignInController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,9 @@ class SignUpFooterWidget extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              controller.googleSignIn();
+            },
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(0),

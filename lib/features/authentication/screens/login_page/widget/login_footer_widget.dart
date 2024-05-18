@@ -3,10 +3,13 @@ import 'package:get/get.dart';
 import 'package:namer_app/constants/sizes.dart';
 import 'package:namer_app/features/authentication/screens/signup_page/signup_page.dart';
 
+import '../../../controllers/signin_controller.dart';
+
 class LoginFooterWidget extends StatelessWidget {
-  const LoginFooterWidget({
+  LoginFooterWidget({
     Key? key,
   }) : super(key: key);
+  final controller = Get.put(SignInController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,9 @@ class LoginFooterWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20)),
             icon: const Image(
                 image: AssetImage("assets/images/google.png"), width: 20.0),
-            onPressed: () {},
+            onPressed: () {
+              controller.googleSignIn();
+            },
             label: Text(
               "Đăng nhập với Google",
               style: Theme.of(context).textTheme.labelLarge,

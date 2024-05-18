@@ -50,6 +50,7 @@ dependencies:
   qr_flutter: ^4.0.0
   iconsax: ^0.0.8
   flutter_smart_dialog: ^4.9.6+1
+  google_sign_in: ^6.2.1
 
 dependency_overrides:
   flutter_svg: ^1.0.2
