@@ -26,7 +26,7 @@ class CustomSearchBar extends StatefulWidget {
 class _CustomSearchBarState extends State<CustomSearchBar> {
 
 
-  List<Schedule> allItems = ScheduleDB.getAllSchedules();
+  late List<Schedule> allItems;
   var items = [];
   var searchHistory = [];
   final TextEditingController searchController = TextEditingController();
@@ -60,6 +60,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   void initState () {
     super.initState();
     searchController.addListener(queryListener);
+    allItems = ScheduleDB.getAllSchedules();
     // loadSchedules();
   }
 
