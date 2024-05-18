@@ -21,16 +21,16 @@ class ScheduleCard extends StatelessWidget {
         padding:  EdgeInsets.symmetric(vertical: SizeConfig.smallPadding),
         child: GestureDetector(
           onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => ScheduleDetails(context: context, schedule: schedule)),
-            // );
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => ReviewScreen(dramaId: schedule.id.toString()),
-              ),
+              MaterialPageRoute(builder: (context) => ScheduleDetails(context: context, schedule: schedule)),
             );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => ReviewScreen(dramaId: schedule.id.toString()),
+            //   ),
+            // );
           },
         child: Container(
             decoration: BoxDecoration(
