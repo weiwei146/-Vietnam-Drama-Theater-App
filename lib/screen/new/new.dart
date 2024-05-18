@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'dart:ui'; // Import dart:ui for BackdropFilter
 import '../interface/SizeConfig.dart';
-import 'NewsCard.dart'; // Import NewsCard
+// Import NewsCard (assuming you have this defined somewhere in your project)
+import 'NewsCard.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: NewScreen(),
-//     );
-//   }
-// }
-
-
+// Define your NewsItem class
 class NewsItem {
   final String title;
   final String imageUrl;
@@ -68,25 +55,52 @@ class _NewScreenState extends State<NewScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Tin tức sự kiện',
-          style: TextStyle(
-            fontSize: 30, // Cỡ chữ to hơn
-            fontWeight: FontWeight.bold,
+      body: Stack(
+        children: [
+          Image.network(
+            'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
-        ),
-      ),
-      body: newsItems.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        itemCount: newsItems.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0), // Padding trái phải
-            child: NewsCard(newsItem: newsItems[index]),
-          );
-        },
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                color: Colors.white.withOpacity(0.2),
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: Text(
+                  'Tin tức sự kiện',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ),
+                ),
+              ),
+              Expanded(
+                child: newsItems.isEmpty
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                  itemCount: newsItems.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: NewsCard(newsItem: newsItems[index]),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
