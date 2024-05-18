@@ -30,6 +30,27 @@ class UserRepository extends GetxController {
     return userData.isNotEmpty;
   }
 
+  Future<UserModel> getUserDetails(String email) async {
+    final snapshot = await _db
+        .collection('users')
+        .where(
+          'email',
+          isEqualTo: email,
+        )
+        .get()
+        .catchError(
+      // ignore: body_might_complete_normally_catch_error
+      (error) {
+        if (kDebugMode) {
+          print(error);
+        }
+      },
+    );
+
+    final userData = snapshot.docs.map((e) => UserModel.fromSnapShot(e)).single;
+    return userData;
+  }
+
   createUser(UserModel userModel) async {
     await _db
         .collection('users')

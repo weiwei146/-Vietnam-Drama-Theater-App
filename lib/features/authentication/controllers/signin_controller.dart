@@ -14,6 +14,10 @@ class SignInController extends GetxController {
   final password = TextEditingController();
 
   /// TextField Validation
+  @override
+  void onReady() {
+    super.onReady();
+  }
 
   //Call this Function from Design & it will do the rest
   Future<void> signIn(String email, String password) async {

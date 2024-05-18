@@ -11,8 +11,14 @@ class AuthenticationRepository extends GetxController {
 
   //Var
   final _auth = FirebaseAuth.instance;
+  Rx<User?>? firebaseUser;
 
-  late Rx<User?> firebaseUser;
+  @override
+  void onReady() {
+    super.onReady();
+    firebaseUser = Rx<User?>(_auth.currentUser);
+    firebaseUser?.bindStream(_auth.userChanges());
+  }
 
   Future<bool> createUserWithEmailAndPassword(
       String email, String password) async {

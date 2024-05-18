@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:namer_app/features/authentication/screens/forgot_password/widget/forgot_password_widget.dart';
 
 import '../../../../../constants/sizes.dart';
+import '../../../../../screen/introduction/home.dart';
 import '../../../controllers/signin_controller.dart';
 import '../../forgot_password/forgot_password_screen.dart';
 
@@ -67,7 +68,7 @@ class LoginForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.0)),
                     builder: (context) => Container(
                       padding: const EdgeInsets.all(tDefaultSize),
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      // height: MediaQuery.of(context).size.height * 0.4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -107,11 +108,10 @@ class LoginForm extends StatelessWidget {
                   ),
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 ),
-                onPressed: () {
-                  () async {
-                    await controller.signIn(
-                        controller.email.text, controller.password.text);
-                  };
+                onPressed: () async {
+                  await controller.signIn(
+                      controller.email.text, controller.password.text);
+                  Get.off(() => const Home());
                 }, // Gọi hàm login từ controller khi người dùng nhấn vào nút "Đăng nhập
                 child: Text(
                   "Đăng nhập".toUpperCase(),
