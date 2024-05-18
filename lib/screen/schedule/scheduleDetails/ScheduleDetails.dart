@@ -1,9 +1,12 @@
 import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:expandable_group/expandable_group_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
 import 'package:intl/intl.dart';
@@ -38,9 +41,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
     return Stack(
       children: [
         // Your main content goes here
-        ScheduleDetailsWidget(
-            schedule: widget.schedule
-        ),
+        ScheduleDetailsWidget(schedule: widget.schedule),
         // Floating bottom widget
         Positioned(
           left: 32,
@@ -48,12 +49,14 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
           bottom: 24,
           child: Container(
             decoration: BoxDecoration(
-              color: Color(0xffA12830),// Background color of the container
-              borderRadius: BorderRadius.circular(16.0), // Rounded corners for the top side only
+              color: Color(0xffA12830), // Background color of the container
+              borderRadius: BorderRadius.circular(
+                  16.0), // Rounded corners for the top side only
             ),
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Color(0xffA12830)),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Color(0xffA12830)),
               ),
               onPressed: () {
                 Navigator.push(
@@ -67,8 +70,8 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                   child: Text(
                     'Đặt vé xem kịch',
                     style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white,
+                      fontSize: 18.0,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -138,7 +141,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   backgroundColor:
-                                  const Color.fromARGB(255, 30, 34, 45),
+                                      const Color.fromARGB(255, 30, 34, 45),
                                   context: context,
                                   builder: (BuildContext ctx) {
                                     return Container(
@@ -155,7 +158,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.black,
                                               borderRadius:
-                                              BorderRadius.circular(20),
+                                                  BorderRadius.circular(20),
                                             ),
                                           ),
                                           const SizedBox(
@@ -165,7 +168,8 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                             children: [
                                               ListTile(
                                                 onTap: () {
-                                                  launchUrl(Uri.parse(schedule.webURL!));
+                                                  launchUrl(Uri.parse(
+                                                      schedule.webURL!));
                                                 },
                                                 leading: Icon(
                                                   CupertinoIcons.share,
@@ -241,15 +245,16 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                         children: [
                                           TextSpan(
                                             text: schedule.title,
-                                            style:
-                                            TextStyle(fontSize: 22, color: Color(0xffA12830)),
+                                            style: TextStyle(
+                                                fontSize: 22,
+                                                color: Color(0xffA12830)),
                                           ),
                                           TextSpan(
                                             text:
-                                            " (${DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!)})",
+                                                " (${DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!)})",
                                             style: TextStyle(
                                               color:
-                                              Colors.black.withOpacity(.8),
+                                                  Colors.black.withOpacity(.8),
                                               fontSize: 14,
                                             ),
                                           ),
@@ -262,8 +267,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                     delay: const Duration(microseconds: 700),
                                     child: Text(
                                       schedule.genres,
-                                      style: TextStyle(
-                                          color: Colors.black),
+                                      style: TextStyle(color: Colors.black),
                                     ),
                                   ),
                                   const SizedBox(height: 5),
@@ -284,8 +288,10 @@ class ScheduleDetailsWidget extends StatelessWidget {
                             DelayedDisplay(
                                 delay: const Duration(microseconds: 800),
                                 child: Text("Mô tả",
-                                    style:
-                                    TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold))),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold))),
                             const SizedBox(height: 10),
                             DelayedDisplay(
                               delay: const Duration(microseconds: 1000),
@@ -313,7 +319,10 @@ class ScheduleDetailsWidget extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 14.0),
                           child: Text(
                             "Thông tin về vở diễn",
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                         ListView.separated(
@@ -326,44 +335,61 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                 return ListTile(
                                   title: Text(
                                     "Thời lượng",
-                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   ),
                                   subtitle: Text(
                                     schedule.length! + " phút.",
-                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 14),
                                   ),
                                 );
                               case 1:
                                 return ListTile(
                                   title: Text(
                                     "Biên kịch",
-                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   ),
                                   subtitle: Text(
                                     schedule.director,
-                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 14),
                                   ),
                                 );
                               case 2:
                                 return ListTile(
                                   title: Text(
                                     "Đạo diễn",
-                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   ),
                                   subtitle: Text(
                                     schedule.director,
-                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 14),
                                   ),
                                 );
                               case 3:
                                 return ListTile(
                                   title: Text(
                                     "Thời gian bắt đầu",
-                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   ),
                                   subtitle: Text(
-                                    DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!),
-                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                    DateFormat('hh:mm a, dd/MM/yyyy')
+                                        .format(schedule.released_on!),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 14),
                                   ),
                                 );
                               default:
@@ -371,7 +397,8 @@ class ScheduleDetailsWidget extends StatelessWidget {
                             }
                           },
                           separatorBuilder: (context, index) => Divider(
-                            color: Colors.black, // Set the color of the divider to black
+                            color: Colors
+                                .black, // Set the color of the divider to black
                             thickness: 1, // Adjust thickness as needed
                           ),
                         ),
@@ -385,7 +412,10 @@ class ScheduleDetailsWidget extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(14.0),
                             child: Text("Diễn viên",
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
                           ),
                           // CastList(
                           //   castList: castList,

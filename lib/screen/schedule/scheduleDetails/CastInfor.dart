@@ -4,9 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:readmore/readmore.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../interface/Cast.dart';
 import 'BottomInfoSheet.dart';
@@ -27,8 +25,7 @@ class _CastInFoScreenState extends State<CastInFoScreen> {
   late Cast info = Cast();
   @override
   Widget build(BuildContext context) {
-    return CastScreenWidget(
-              info: info);
+    return CastScreenWidget(info: info);
   }
 }
 
@@ -86,7 +83,7 @@ class CastScreenWidget extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   backgroundColor:
-                                  const Color.fromARGB(255, 30, 34, 45),
+                                      const Color.fromARGB(255, 30, 34, 45),
                                   context: context,
                                   builder: (BuildContext ctx) {
                                     return Container(
@@ -103,7 +100,7 @@ class CastScreenWidget extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(20),
+                                                  BorderRadius.circular(20),
                                             ),
                                           ),
                                           const SizedBox(
@@ -169,6 +166,7 @@ class CastScreenWidget extends StatelessWidget {
                 ),
                 BottomInfoSheet(
                   minSize: .50,
+                  backdrops: info.image!,
                   child: [
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -181,8 +179,8 @@ class CastScreenWidget extends StatelessWidget {
                           children: [
                             Text(
                               "Personal Info",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 22),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 22),
                             ),
                             const SizedBox(height: 10),
                             Row(
@@ -191,12 +189,12 @@ class CastScreenWidget extends StatelessWidget {
                                   flex: 2,
                                   child: SizedBox(
                                     width:
-                                    MediaQuery.of(context).size.width * .5,
+                                        MediaQuery.of(context).size.width * .5,
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           "Known for",
@@ -216,7 +214,7 @@ class CastScreenWidget extends StatelessWidget {
                                   flex: 2,
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
@@ -288,7 +286,6 @@ class CastScreenWidget extends StatelessWidget {
                         ),
                       ),
                   ],
-                  backdrops: info.image!,
                 )
               ],
             ),

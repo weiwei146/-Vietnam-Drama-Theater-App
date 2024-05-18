@@ -1,65 +1,92 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:namer_app/features/authentication/screens/welcome_page/welcome_page.dart';
-import 'package:namer_app/screen/introduction/home.dart';
 
-import 'exceptions/login_with_email_and_password_failure.dart';
-import 'exceptions/signup_email_password_failure.dart';
+import 'exceptions/email_password_failure.dart';
 
 class AuthenticationRepository extends GetxController {
-  static AuthenticationRepository get instance => Get.find();
+  static AuthenticationRepository get instance =>
+      Get.put(AuthenticationRepository());
 
-  //Variables
+  //Var
   final _auth = FirebaseAuth.instance;
-  late final Rx<User?> firebaseUser;
+  Rx<User?>? firebaseUser;
 
-  //Will be load when app launches this func will be called and set the firebaseUser state
   @override
   void onReady() {
+    super.onReady();
     firebaseUser = Rx<User?>(_auth.currentUser);
-    firebaseUser.bindStream(_auth.userChanges());
-    ever(firebaseUser, _setInitialScreen);
+    firebaseUser?.bindStream(_auth.userChanges());
   }
 
-  /// If we are setting initial screen from here
-  /// then in the main.dart => App() add CircularProgressIndicator()
-  _setInitialScreen(User? user) {
-    user != null ? print(user) : print("You aren't login");
-  }
-
-  //FUNC
-  Future<String?> createUserWithEmailAndPassword(
+  Future<bool> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      firebaseUser.value != null
-          ? GetMaterialApp(home: Home())
-          : GetMaterialApp(home: WelcomeScreen());
+        email: email,
+        password: password,
+      );
+      return true;
     } on FirebaseAuthException catch (e) {
-      final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
-      return ex.message;
+      final ex = EmailAndPasswordFailure.fromCode(e.code);
+      Get.closeAllSnackbars();
+      Get.snackbar(
+        'Lỗi',
+        ex.message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+      if (kDebugMode) {
+        print('FIREBASE AUTH EXCEPTION: -${ex.message}');
+        rethrow;
+      }
     } catch (_) {
-      const ex = SignUpWithEmailAndPasswordFailure();
-      return ex.message;
+      const ex = EmailAndPasswordFailure();
+      if (kDebugMode) {
+        print('FIREBASE AUTH EXCEPTION: -${ex.message}');
+      }
+      throw ex;
     }
-    return null;
+    return false;
   }
 
-  Future<String?> loginWithEmailAndPassword(
+  Future<bool> isDuplicateEmail() async {
+    return false;
+  }
+
+  Future<void> loginUserWithEmailAndPassword(
       String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      firebaseUser.value != null ? Get.to(Home()) : Get.to(WelcomeScreen());
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
     } on FirebaseAuthException catch (e) {
-      final ex = LogInWithEmailAndPasswordFailure.fromCode(e.code);
-      return ex.message;
+      final ex = EmailAndPasswordFailure.fromCode(e.code);
+      if (kDebugMode) {
+        print('FIREBASE AUTH EXCEPTION: -${ex.message}');
+        print(e.code);
+      }
+      Get.closeAllSnackbars();
+      Get.snackbar(
+        'Lỗi',
+        ex.message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent.withOpacity(0.1),
+        colorText: Colors.red,
+      );
     } catch (_) {
-      const ex = LogInWithEmailAndPasswordFailure();
-      return ex.message;
+      const ex = EmailAndPasswordFailure();
+      if (kDebugMode) {
+        print('FIREBASE AUTH EXCEPTION: -${ex.message}');
+      }
+      throw ex;
     }
-    return null;
   }
 
-  Future<void> logout() async => await _auth.signOut();
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 }
