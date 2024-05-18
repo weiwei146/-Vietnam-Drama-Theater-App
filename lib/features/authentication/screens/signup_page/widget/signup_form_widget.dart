@@ -92,6 +92,7 @@ class SignUpFormWidget extends StatelessWidget {
                       SignUpController.instance.createUser(userModel);
                     }
                     ;
+                    Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red, // Màu nền đỏ

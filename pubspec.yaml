@@ -46,6 +46,8 @@ dependencies:
   foundation: ^0.0.5
   url_launcher: ^6.2.6
   book_my_seat: ^1.0.1
+  iconsax: ^0.0.8
+  flutter_smart_dialog: ^4.9.6+1
 
 dependency_overrides:
   flutter_svg: ^1.0.2
@@ -65,7 +67,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/videos/demo.mp4
-    - assets/images/splash.png
+    - assets/images/splash.jpg
     - assets/images/google.png
     - assets/images/greeting.png
     - assets/images/svg_selected_bus_seats.svg

@@ -12,6 +12,15 @@ class LoginScreen extends StatelessWidget {
     //Get the size in LoginHeaderWidget()
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          title: Text('Login'),
+        ),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(tDefaultSize),
