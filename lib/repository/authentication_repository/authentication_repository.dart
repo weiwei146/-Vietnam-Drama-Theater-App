@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'exceptions/email_password_failure.dart';
 
@@ -50,6 +51,37 @@ class AuthenticationRepository extends GetxController {
       throw ex;
     }
     return false;
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      if (googleAuth?.accessToken == null && googleAuth?.idToken == null) {
+        throw const EmailAndPasswordFailure(
+            "Bạn phải chọn tài khoản để tiếp tục");
+      }
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      final ex = EmailAndPasswordFailure.fromCode(e.code);
+      throw ex.message;
+    } on EmailAndPasswordFailure catch (e) {
+      throw e.message;
+    } catch (err) {
+      throw err.toString();
+    }
   }
 
   Future<bool> isDuplicateEmail() async {
