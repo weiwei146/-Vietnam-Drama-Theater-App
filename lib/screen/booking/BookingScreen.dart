@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:namer_app/screen/booking/payment.dart';
 import 'package:namer_app/utlis/database/SlotDB.dart';
 import '../schedule/scheduleDetails/ScheduleDetails.dart';
 
@@ -282,7 +283,10 @@ class _BookingScreenState extends State<BookingScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Add functionality to hide this widget if needed
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PaymentScreen( selectedSeats: selectedSeats.toString(), payment: payment, title: title,)),
+                        );
                       },
 
                       child: Text('Thanh toán', style: TextStyle(color: Color(0xffA12830)),),

@@ -12,7 +12,7 @@ class ShowListPaper extends StatelessWidget {
       body: Stack(
         children: [
           Image.network(
-            'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg', // Replace with your image URL
+            'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
