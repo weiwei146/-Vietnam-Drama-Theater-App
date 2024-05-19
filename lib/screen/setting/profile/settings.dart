@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:namer_app/constants/sizes.dart';
 import 'package:namer_app/features/authentication/controllers/settings_controller.dart';
 import 'package:namer_app/features/authentication/models/user_model.dart';
+import 'package:namer_app/screen/setting/app_info/payment_info_screen.dart';
+import 'package:namer_app/screen/setting/app_info/system_settings.dart';
 import 'package:namer_app/screen/setting/profile/profile.dart';
 import 'package:namer_app/screen/setting/widget/profile_widget.dart';
 
 import '../../../constants/image_strings.dart';
-import '../../../constants/sizes.dart';
 import '../../../features/authentication/screens/login_page/login_page.dart';
 import '../../../repository/authentication_repository/authentication_repository.dart';
+import '../app_info/app_info_screen.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -139,19 +142,25 @@ class _SettingsState extends State<Settings> {
                     ProfileMenuWidget(
                       title: "Cài đặt hệ thống",
                       icon: LineAwesomeIcons.cog,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => SettingsPage1());
+                      },
                     ),
                     ProfileMenuWidget(
                       title: "Thông tin thanh toán",
                       icon: LineAwesomeIcons.wallet,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => PaymentInfoScreen());
+                      },
                     ),
                     const Divider(),
                     const SizedBox(height: 10),
                     ProfileMenuWidget(
                       title: "Thông tin ứng dụng",
                       icon: LineAwesomeIcons.info,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => AppInfoScreen());
+                      },
                     ),
                   ],
                 ),
@@ -277,14 +286,18 @@ class _SettingsState extends State<Settings> {
                     ProfileMenuWidget(
                       title: "Phương thức thanh toán",
                       icon: LineAwesomeIcons.wallet,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => PaymentInfoScreen());
+                      },
                     ),
                     const Divider(),
                     const SizedBox(height: 10),
                     ProfileMenuWidget(
                       title: "Thông tin ứng dụng",
                       icon: LineAwesomeIcons.info,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => AppInfoScreen());
+                      },
                     ),
                     ProfileMenuWidget(
                       title: "Đăng xuất",

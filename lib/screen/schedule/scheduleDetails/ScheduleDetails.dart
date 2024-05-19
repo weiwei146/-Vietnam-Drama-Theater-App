@@ -2,17 +2,15 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delayed_display/delayed_display.dart';
-import 'package:expandable_group/expandable_group_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
-import 'package:intl/intl.dart';
 import 'package:namer_app/utlis/database/SlotDB.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../review/review.dart';
 import 'BottomInfoSheet.dart';
 
@@ -36,6 +34,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
     super.initState();
     soldSeat = SlotDB.getSlotsByMovieID(widget.schedule.id!);
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -56,12 +55,17 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor:
-                MaterialStateProperty.all<Color>(Color(0xffA12830)),
+                    MaterialStateProperty.all<Color>(Color(0xffA12830)),
               ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BookingScreen(context: context, soldSeats: soldSeat, title: widget.schedule.title!,)),
+                  MaterialPageRoute(
+                      builder: (context) => BookingScreen(
+                            context: context,
+                            soldSeats: soldSeat,
+                            title: widget.schedule.title!,
+                          )),
                 );
               },
               child: Padding(
@@ -141,7 +145,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   backgroundColor:
-                                  const Color.fromARGB(255, 30, 34, 45),
+                                      const Color.fromARGB(255, 30, 34, 45),
                                   context: context,
                                   builder: (BuildContext ctx) {
                                     return Container(
@@ -158,7 +162,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.black,
                                               borderRadius:
-                                              BorderRadius.circular(20),
+                                                  BorderRadius.circular(20),
                                             ),
                                           ),
                                           const SizedBox(
@@ -251,10 +255,10 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                           ),
                                           TextSpan(
                                             text:
-                                            " (${DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!)})",
+                                                " (${DateFormat('hh:mm a, dd/MM/yyyy').format(schedule.released_on!)})",
                                             style: TextStyle(
                                               color:
-                                              Colors.black.withOpacity(.8),
+                                                  Colors.black.withOpacity(.8),
                                               fontSize: 14,
                                             ),
                                           ),
@@ -436,7 +440,8 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => ReviewScreen(dramaId: schedule.id.toString()),
+                                        builder: (context) => ReviewScreen(
+                                            dramaId: schedule.id.toString()),
                                       ),
                                     );
                                   },
