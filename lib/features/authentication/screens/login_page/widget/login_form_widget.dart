@@ -5,9 +5,12 @@ import 'package:namer_app/features/authentication/screens/forgot_password/forgot
 import 'package:namer_app/features/authentication/screens/forgot_password/widget/forgot_password_widget.dart';
 
 import '../../../../../constants/sizes.dart';
+import '../../../../../screen/setting/profile/settings.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  final VoidCallback? didPop;
+
+  const LoginForm({Key? key, this.didPop}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -66,7 +69,8 @@ class _LoginFormState extends State<LoginForm> {
                   showModalBottomSheet(
                     context: context,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
                     builder: (context) => Container(
                       padding: const EdgeInsets.all(tDefaultSize),
                       child: Column(
@@ -111,8 +115,17 @@ class _LoginFormState extends State<LoginForm> {
                 onPressed: () async {
                   await controller.signIn(
                       controller.email.text, controller.password.text);
-                  Navigator.of(context).pop(true);
-                  // Return login success
+                  Navigator.of(context)
+                      .pop(); // Close the login screen on success
+                  if (widget.didPop != null)
+                    widget.didPop!(); // Call the didPop callback
+                  navigateSettingsPage();
+                  // Show an error message if login fails
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: Text(
+                  //         'Đăng nhập không thành công. Vui lòng thử lại.'),
+                  //   ),
                 },
                 child: Text(
                   "Đăng nhập".toUpperCase(),
@@ -124,5 +137,12 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ),
     );
+  }
+
+  void navigateSettingsPage() {
+    Route route = MaterialPageRoute(builder: (context) => Settings());
+    Navigator.push(context, route).then((value) {
+      if (widget.didPop != null) widget.didPop!();
+    });
   }
 }
