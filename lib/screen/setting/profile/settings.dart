@@ -21,6 +21,29 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final SettingsController _settingsController = Get.put(SettingsController());
+  Future<UserModel?>? _futureUserData;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshUserData();
+  }
+
+  void _refreshUserData() {
+    setState(() {
+      _futureUserData = _settingsController.getUserData();
+    });
+  }
+
+  onGoBack(dynamic value) {
+    _refreshUserData();
+    setState(() {});
+  }
+
+  void navigateSettingsPage() {
+    Route route = MaterialPageRoute(builder: (context) => Settings());
+    Navigator.push(context, route).then(onGoBack);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +65,7 @@ class _SettingsState extends State<Settings> {
         ],
       ),
       body: FutureBuilder<UserModel?>(
-        future: _settingsController.getUserData(),
+        future: _futureUserData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -87,7 +110,8 @@ class _SettingsState extends State<Settings> {
                 Center(
                   child: OutlinedButton(
                     onPressed: () {
-                      Get.to(() => LoginScreen());
+                      Get.to(() => LoginScreen())!
+                          .then((_) => _refreshUserData());
                     },
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -100,7 +124,7 @@ class _SettingsState extends State<Settings> {
                     child: Text(
                       "ĐĂNG NHẬP",
                       style: GoogleFonts.montserrat(
-                        color: Colors.red,
+                        color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                       ),
@@ -201,9 +225,10 @@ class _SettingsState extends State<Settings> {
                       Text(
                         '${user.name}',
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                       Text(
                         '${user.email}',
@@ -215,6 +240,8 @@ class _SettingsState extends State<Settings> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Navigate to profile update screen
+                            Get.to(() => ProfileScreen(didPop: () {}))!
+                                .then((_) => _refreshUserData());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
@@ -243,9 +270,8 @@ class _SettingsState extends State<Settings> {
                       title: "Xem hồ sơ",
                       icon: LineAwesomeIcons.cog,
                       onPress: () {
-                        Get.to(() => ProfileScreen(
-                              didPop: () {},
-                            ));
+                        Get.to(() => ProfileScreen(didPop: () {}))!
+                            .then((_) => _refreshUserData());
                       },
                     ),
                     ProfileMenuWidget(
@@ -277,6 +303,7 @@ class _SettingsState extends State<Settings> {
                             onPressed: () {
                               AuthenticationRepository.instance.logout();
                               Navigator.of(context).pop();
+                              navigateSettingsPage();
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.redAccent,

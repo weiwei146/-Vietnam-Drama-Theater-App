@@ -3,17 +3,22 @@ import 'package:get/get.dart';
 import 'package:namer_app/constants/sizes.dart';
 import 'package:namer_app/features/authentication/controllers/signup_controller.dart';
 
+import '../../../../../screen/setting/profile/settings.dart';
 import '../../../models/user_model.dart';
 
 class SignUpFormWidget extends StatelessWidget {
+  final VoidCallback? didPop;
+
   const SignUpFormWidget({
     Key? key,
+    this.didPop,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignUpController());
     final formKey = GlobalKey<FormState>();
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Form(
@@ -52,7 +57,7 @@ class SignUpFormWidget extends StatelessWidget {
             TextFormField(
               controller: controller.phoneNumber,
               decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.email_outlined),
+                prefixIcon: Icon(Icons.phone),
                 labelText: "Số điện thoại",
                 hintText: "Số điện thoại",
                 border: OutlineInputBorder(),
@@ -80,39 +85,55 @@ class SignUpFormWidget extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      UserModel userModel = UserModel(
-                        name: controller.name.text,
-                        email: controller.email.text,
-                        phoneNumber: controller.phoneNumber.text,
-                        password: controller.password.text,
-                      );
-
-                      SignUpController.instance.createUser(userModel);
-                    }
-                    ;
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Màu nền đỏ
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(0), // Làm phẳng các góc
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 20,
-                    ),
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    UserModel userModel = UserModel(
+                      name: controller.name.text,
+                      email: controller.email.text,
+                      phoneNumber: controller.phoneNumber.text,
+                      password: controller.password.text,
+                    );
+                    await SignUpController.instance.createUser(userModel);
+                    if (didPop != null) didPop!();
+                    Navigator.of(context)
+                        .pop(); // Close the sign-up screen on success
+                    navigateSettingsPage(context); // Pass the context here
+                  } else {
+                    // Show an error message if sign-up fails
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text('Đăng ký không thành công. Vui lòng thử lại.'),
+                      ),
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0),
                   ),
-                  child: Text(
-                    "Đăng ký".toUpperCase(),
-                    style: Theme.of(context).textTheme.labelMedium,
-                  )),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 20,
+                  ),
+                ),
+                child: Text(
+                  "Đăng ký".toUpperCase(),
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void navigateSettingsPage(BuildContext context) {
+    Route route = MaterialPageRoute(builder: (context) => Settings());
+    Navigator.push(context, route).then((value) {
+      if (didPop != null) didPop!();
+    });
   }
 }
