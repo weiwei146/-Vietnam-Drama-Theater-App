@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/screen/booking/inforPayment.dart';
 import 'package:selectable_box/selectable_box.dart';
 
+import '../../features/authentication/controllers/profile_controller.dart';
+import 'BookingScreen.dart';
+
 class PaymentScreen extends StatefulWidget {
   final String title;
+  final String scheduleID;
   final String selectedSeats;
+  final Set<SeatNumber> slots;
   final int payment;
-  const PaymentScreen({Key? key, required this.title, required this.selectedSeats, required this.payment})  : super(key: key);
+  const PaymentScreen({Key? key, required this.title, required this.selectedSeats, required this.payment, required this.scheduleID, required this.slots})  : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -24,6 +31,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       isCardSelected = isCard;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +282,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => InformationPayment(typePayment: isCardSelected)),
+                  MaterialPageRoute(builder: (context) => InformationPayment(typePayment: isCardSelected, selectedSeats: widget.slots, id: widget.scheduleID, payment: widget.payment,)),
                 );
               },
 

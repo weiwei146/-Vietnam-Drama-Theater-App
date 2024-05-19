@@ -4,15 +4,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
+import 'package:intl/intl.dart';
 import 'package:namer_app/utlis/database/SlotDB.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../review/review.dart';
 import 'BottomInfoSheet.dart';
+import 'CastList.dart';
+import '../../review/review.dart';
 
 class ScheduleDetails extends StatefulWidget {
   final Schedule schedule;
@@ -34,13 +35,15 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
     super.initState();
     soldSeat = SlotDB.getSlotsByMovieID(widget.schedule.id!);
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         // Your main content goes here
-        ScheduleDetailsWidget(schedule: widget.schedule),
+        ScheduleDetailsWidget(
+            schedule: widget.schedule
+        ),
         // Floating bottom widget
         Positioned(
           left: 32,
@@ -48,24 +51,17 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
           bottom: 24,
           child: Container(
             decoration: BoxDecoration(
-              color: Color(0xffA12830), // Background color of the container
-              borderRadius: BorderRadius.circular(
-                  16.0), // Rounded corners for the top side only
+              color: Color(0xffA12830),// Background color of the container
+              borderRadius: BorderRadius.circular(16.0), // Rounded corners for the top side only
             ),
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Color(0xffA12830)),
+                backgroundColor: MaterialStateProperty.all<Color>(Color(0xffA12830)),
               ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => BookingScreen(
-                            context: context,
-                            soldSeats: soldSeat,
-                            title: widget.schedule.title!,
-                          )),
+                  MaterialPageRoute(builder: (context) => BookingScreen(context: context, soldSeats: soldSeat, title: widget.schedule.title!, scheduleID: widget.schedule.id!,)),
                 );
               },
               child: Padding(
@@ -421,9 +417,8 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold)),
                           ),
-                          // CastList(
-                          //   castList: castList,
-                          // ),
+                          CastList(
+                            castListString: schedule.cast,
                           const SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.all(14.0),
