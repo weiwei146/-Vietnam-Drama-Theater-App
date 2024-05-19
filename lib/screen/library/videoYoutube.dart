@@ -1,25 +1,30 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerYoutubeApp extends StatelessWidget {
   final String videoUrl;
   final bool runVideo;
-  const VideoPlayerYoutubeApp({Key? key, required this.videoUrl, required this.runVideo}) : super(key: key); // Constructor để chấp nhận giá trị của biến videoUrl và runVideo
+  const VideoPlayerYoutubeApp(
+      {Key? key, required this.videoUrl, required this.runVideo})
+      : super(
+            key:
+                key); // Constructor để chấp nhận giá trị của biến videoUrl và runVideo
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: VideoYoutubeScreen(videoUrl: videoUrl, runVideo: runVideo)
-    );
+        child: VideoYoutubeScreen(videoUrl: videoUrl, runVideo: runVideo));
   }
 }
-
 
 class VideoYoutubeScreen extends StatefulWidget {
   final String videoUrl;
   final bool runVideo;
-  const VideoYoutubeScreen({Key? key, required this.videoUrl, required this.runVideo}) : super(key: key);
+  const VideoYoutubeScreen(
+      {Key? key, required this.videoUrl, required this.runVideo})
+      : super(key: key);
 
   @override
   State<VideoYoutubeScreen> createState() => _VideoYoutubeScreenState();
@@ -33,14 +38,12 @@ class _VideoYoutubeScreenState extends State<VideoYoutubeScreen> {
   void initState() {
     super.initState();
     controller = YoutubePlayerController(
-
       initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl) ?? '',
       flags: YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
         loop: true,
       ),
-
     );
   }
 

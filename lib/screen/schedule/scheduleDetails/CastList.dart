@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utlis/animation.dart';
 import '../../interface/Cast.dart';
@@ -52,7 +51,7 @@ class _CastListState extends State<CastList> {
             if (castList[i].image != "")
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                 child: InkWell(
                   onTap: () {
                     pushNewScreen(

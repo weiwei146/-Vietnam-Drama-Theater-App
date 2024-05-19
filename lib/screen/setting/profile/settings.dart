@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:namer_app/constants/sizes.dart';
 import 'package:namer_app/features/authentication/controllers/settings_controller.dart';
 import 'package:namer_app/features/authentication/models/user_model.dart';
+import 'package:namer_app/screen/setting/app_info/payment_info_screen.dart';
+import 'package:namer_app/screen/setting/app_info/system_settings.dart';
 import 'package:namer_app/screen/setting/profile/profile.dart';
 import 'package:namer_app/screen/setting/widget/profile_widget.dart';
 
 import '../../../constants/image_strings.dart';
-import '../../../constants/sizes.dart';
 import '../../../features/authentication/screens/login_page/login_page.dart';
 import '../../../repository/authentication_repository/authentication_repository.dart';
+import '../app_info/app_info_screen.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -21,6 +24,29 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final SettingsController _settingsController = Get.put(SettingsController());
+  Future<UserModel?>? _futureUserData;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshUserData();
+  }
+
+  void _refreshUserData() {
+    setState(() {
+      _futureUserData = _settingsController.getUserData();
+    });
+  }
+
+  onGoBack(dynamic value) {
+    _refreshUserData();
+    setState(() {});
+  }
+
+  void navigateSettingsPage() {
+    Route route = MaterialPageRoute(builder: (context) => Settings());
+    Navigator.push(context, route).then(onGoBack);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +68,7 @@ class _SettingsState extends State<Settings> {
         ],
       ),
       body: FutureBuilder<UserModel?>(
-        future: _settingsController.getUserData(),
+        future: _futureUserData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -87,7 +113,8 @@ class _SettingsState extends State<Settings> {
                 Center(
                   child: OutlinedButton(
                     onPressed: () {
-                      Get.to(() => LoginScreen());
+                      Get.to(() => LoginScreen())!
+                          .then((_) => _refreshUserData());
                     },
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -100,7 +127,7 @@ class _SettingsState extends State<Settings> {
                     child: Text(
                       "ĐĂNG NHẬP",
                       style: GoogleFonts.montserrat(
-                        color: Colors.red,
+                        color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                       ),
@@ -115,19 +142,25 @@ class _SettingsState extends State<Settings> {
                     ProfileMenuWidget(
                       title: "Cài đặt hệ thống",
                       icon: LineAwesomeIcons.cog,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => SettingsPage1());
+                      },
                     ),
                     ProfileMenuWidget(
                       title: "Thông tin thanh toán",
                       icon: LineAwesomeIcons.wallet,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => PaymentInfoScreen());
+                      },
                     ),
                     const Divider(),
                     const SizedBox(height: 10),
                     ProfileMenuWidget(
                       title: "Thông tin ứng dụng",
                       icon: LineAwesomeIcons.info,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => AppInfoScreen());
+                      },
                     ),
                   ],
                 ),
@@ -201,9 +234,10 @@ class _SettingsState extends State<Settings> {
                       Text(
                         '${user.name}',
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                       Text(
                         '${user.email}',
@@ -215,6 +249,8 @@ class _SettingsState extends State<Settings> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Navigate to profile update screen
+                            Get.to(() => ProfileScreen(didPop: () {}))!
+                                .then((_) => _refreshUserData());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
@@ -243,22 +279,25 @@ class _SettingsState extends State<Settings> {
                       title: "Xem hồ sơ",
                       icon: LineAwesomeIcons.cog,
                       onPress: () {
-                        Get.to(() => ProfileScreen(
-                              didPop: () {},
-                            ));
+                        Get.to(() => ProfileScreen(didPop: () {}))!
+                            .then((_) => _refreshUserData());
                       },
                     ),
                     ProfileMenuWidget(
                       title: "Phương thức thanh toán",
                       icon: LineAwesomeIcons.wallet,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => PaymentInfoScreen());
+                      },
                     ),
                     const Divider(),
                     const SizedBox(height: 10),
                     ProfileMenuWidget(
                       title: "Thông tin ứng dụng",
                       icon: LineAwesomeIcons.info,
-                      onPress: () {},
+                      onPress: () {
+                        Get.to(() => AppInfoScreen());
+                      },
                     ),
                     ProfileMenuWidget(
                       title: "Đăng xuất",
@@ -277,6 +316,7 @@ class _SettingsState extends State<Settings> {
                             onPressed: () {
                               AuthenticationRepository.instance.logout();
                               Navigator.of(context).pop();
+                              navigateSettingsPage();
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.redAccent,
