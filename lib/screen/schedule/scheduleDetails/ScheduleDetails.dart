@@ -5,22 +5,22 @@ import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
-import 'package:intl/intl.dart';
 import 'package:namer_app/utlis/database/SlotDB.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../features/authentication/controllers/profile_controller.dart';
+import '../../review/review.dart';
 import 'BottomInfoSheet.dart';
 import 'CastList.dart';
-import '../../review/review.dart';
 
 class ScheduleDetails extends StatefulWidget {
   final Schedule schedule;
   final BuildContext context;
+
   const ScheduleDetails({
     Key? key,
     required this.context,
@@ -39,6 +39,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
     super.initState();
     soldSeat = SlotDB.getSlotsByMovieID(widget.schedule.id!);
   }
+
   OverlayEntry? _overlayEntry;
 
   OverlayEntry _createOverlayEntry() {
@@ -46,7 +47,8 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
       builder: (context) => Positioned(
         left: 32,
         right: 32,
-        bottom: MediaQuery.of(context).size.height/2 - 40, // Adjust the position above the button
+        bottom: MediaQuery.of(context).size.height / 2 -
+            40, // Adjust the position above the button
         child: Material(
           color: Colors.transparent,
           child: Container(
@@ -57,9 +59,9 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
             ),
             child: Center(
               child: Text(
-              'Vui lòng đăng nhập!',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-              textAlign: TextAlign.center,
+                'Vui lòng đăng nhập!',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -80,23 +82,20 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Your main content goes here
-        ScheduleDetailsWidget(
-            schedule: widget.schedule
-        ),
-        // Floating bottom widget
+        ScheduleDetailsWidget(schedule: widget.schedule),
         Positioned(
           left: 32,
           right: 32,
           bottom: 24,
           child: Container(
             decoration: BoxDecoration(
-              color: Color(0xffA12830),// Background color of the container
-              borderRadius: BorderRadius.circular(16.0), // Rounded corners for the top side only
+              color: Color(0xffA12830),
+              borderRadius: BorderRadius.circular(16.0),
             ),
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Color(0xffA12830)),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Color(0xffA12830)),
               ),
               onPressed: () {
                 if (!controller.getAuRepo().isSignin.value) {
@@ -104,11 +103,13 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                 } else {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>
-                        BookingScreen(context: context,
-                          soldSeats: soldSeat,
-                          title: widget.schedule.title!,
-                          scheduleID: widget.schedule.id!,)),
+                    MaterialPageRoute(
+                        builder: (context) => BookingScreen(
+                              context: context,
+                              soldSeats: soldSeat,
+                              title: widget.schedule.title!,
+                              scheduleID: widget.schedule.id!,
+                            )),
                   );
                 }
               },
@@ -134,6 +135,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
 
 class ScheduleDetailsWidget extends StatelessWidget {
   final Schedule schedule;
+
   const ScheduleDetailsWidget({
     Key? key,
     required this.schedule,
@@ -155,107 +157,98 @@ class ScheduleDetailsWidget extends StatelessWidget {
           child: Container(
             color: Colors.white.withOpacity(.5),
             child: Stack(
-              // physics: BouncingScrollPhysics(),
               children: [
-                Stack(
-                  children: [
-                    InkWell(
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * (1 - 0.63),
-                        width: MediaQuery.of(context).size.width,
-                        child: CachedNetworkImage(
-                          imageUrl: schedule.backdrop!, //backdrop
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                InkWell(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * (1 - 0.63),
+                    width: MediaQuery.of(context).size.width,
+                    child: CachedNetworkImage(
+                      imageUrl: schedule.backdrop!,
+                      fit: BoxFit.cover,
                     ),
-                    SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CreateIcons(
-                              onTap: () => Navigator.pop(context),
-                              child: const Icon(
-                                CupertinoIcons.back,
-                                color: Colors.black,
+                  ),
+                ),
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CreateIcons(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(
+                            CupertinoIcons.back,
+                            color: Colors.black,
+                          ),
+                        ),
+                        CreateIcons(
+                          onTap: () {
+                            showModalBottomSheet<void>(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                            ),
-                            CreateIcons(
-                              onTap: () {
-                                showModalBottomSheet<void>(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 30, 34, 45),
-                                  context: context,
-                                  builder: (BuildContext ctx) {
-                                    return Container(
-                                      color: Colors.white,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 30, 34, 45),
+                              context: context,
+                              builder: (BuildContext ctx) {
+                                return Container(
+                                  color: Colors.white,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(height: 14),
+                                      Container(
+                                        height: 5,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Column(
                                         children: [
-                                          const SizedBox(
-                                            height: 14,
-                                          ),
-                                          Container(
-                                            height: 5,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
+                                          ListTile(
+                                            onTap: () {
+                                              launchUrl(
+                                                  Uri.parse(schedule.webURL!));
+                                            },
+                                            leading: Icon(
+                                              CupertinoIcons.share,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                            title: Text(
+                                              "Mở trong trình duyệt",
+                                              style: TextStyle(
+                                                  color: Colors.black),
                                             ),
                                           ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Column(
-                                            children: [
-                                              ListTile(
-                                                onTap: () {
-                                                  launchUrl(Uri.parse(
-                                                      schedule.webURL!));
-                                                },
-                                                leading: Icon(
-                                                  CupertinoIcons.share,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                ),
-                                                title: Text(
-                                                  "Mở trong trình duyệt",
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              Divider(
-                                                height: .5,
-                                                thickness: .5,
-                                                color: Colors.black,
-                                              )
-                                            ],
+                                          Divider(
+                                            height: .5,
+                                            thickness: .5,
+                                            color: Colors.black,
                                           ),
                                         ],
                                       ),
-                                    );
-                                  },
+                                    ],
+                                  ),
                                 );
                               },
-                              child: const Icon(
-                                CupertinoIcons.ellipsis,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
+                            );
+                          },
+                          child: const Icon(
+                            CupertinoIcons.ellipsis,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      ],
+                    ),
+                  ),
                 ),
                 BottomInfoSheet(
-                  backdrops: schedule.backdrop!, //backdrop
+                  backdrops: schedule.backdrop!,
                   child: [
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -265,7 +258,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                           Flexible(
                             flex: 1,
                             child: DelayedDisplay(
-                              delay: const Duration(microseconds: 500),
+                              delay: const Duration(milliseconds: 500),
                               child: Container(
                                 decoration: BoxDecoration(
                                   boxShadow: kElevationToShadow[8],
@@ -273,7 +266,9 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: CachedNetworkImage(
-                                      imageUrl: schedule.poster!, width: 120),
+                                    imageUrl: schedule.poster!,
+                                    width: 120,
+                                  ),
                                 ),
                               ),
                             ),
@@ -287,7 +282,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   DelayedDisplay(
-                                    delay: const Duration(microseconds: 700),
+                                    delay: const Duration(milliseconds: 700),
                                     child: RichText(
                                       text: TextSpan(
                                         children: [
@@ -312,7 +307,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 5),
                                   DelayedDisplay(
-                                    delay: const Duration(microseconds: 700),
+                                    delay: const Duration(milliseconds: 700),
                                     child: Text(
                                       schedule.genres,
                                       style: TextStyle(color: Colors.black),
@@ -322,11 +317,11 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
-                    if (schedule.overview != '') // schedule.overview
+                    if (schedule.overview != '')
                       Container(
                         padding: const EdgeInsets.all(12),
                         child: Column(
@@ -334,29 +329,36 @@ class ScheduleDetailsWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             DelayedDisplay(
-                                delay: const Duration(microseconds: 800),
-                                child: Text("Mô tả",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold))),
+                              delay: const Duration(milliseconds: 800),
+                              child: Text(
+                                "Mô tả",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 10),
                             DelayedDisplay(
-                              delay: const Duration(microseconds: 1000),
+                              delay: const Duration(milliseconds: 1000),
                               child: ReadMoreText(
-                                schedule.overview!, //overview
+                                schedule.overview!,
                                 trimLines: 4,
                                 colorClickableText: Color(0xffA12830),
                                 trimMode: TrimMode.Line,
                                 trimCollapsedText: 'Xem thêm',
                                 trimExpandedText: 'Rút ngắn',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black),
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                ),
                                 moreStyle: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -368,15 +370,16 @@ class ScheduleDetailsWidget extends StatelessWidget {
                           child: Text(
                             "Thông tin về vở diễn",
                             style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         ListView.separated(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: 4, // Number of items including the header
+                          itemCount: 4,
                           itemBuilder: (context, index) {
                             switch (index) {
                               case 0:
@@ -384,14 +387,17 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                   title: Text(
                                     "Thời lượng",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   subtitle: Text(
-                                    schedule.length! + " phút.",
+                                    "${schedule.length} phút.",
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 14),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 );
                               case 1:
@@ -399,14 +405,17 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                   title: Text(
                                     "Biên kịch",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   subtitle: Text(
                                     schedule.director,
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 14),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 );
                               case 2:
@@ -414,14 +423,17 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                   title: Text(
                                     "Đạo diễn",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   subtitle: Text(
                                     schedule.director,
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 14),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 );
                               case 3:
@@ -429,30 +441,32 @@ class ScheduleDetailsWidget extends StatelessWidget {
                                   title: Text(
                                     "Thời gian bắt đầu",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   subtitle: Text(
                                     DateFormat('hh:mm a, dd/MM/yyyy')
                                         .format(schedule.released_on!),
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 14),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 );
                               default:
-                                return Container(); // Return empty container for any other index
+                                return Container();
                             }
                           },
                           separatorBuilder: (context, index) => Divider(
-                            color: Colors
-                                .black, // Set the color of the divider to black
-                            thickness: 1, // Adjust thickness as needed
+                            color: Colors.black,
+                            thickness: 1,
                           ),
                         ),
                       ],
                     ),
-                    if (schedule.cast.length > 0)
+                    if (schedule.cast.isNotEmpty)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -473,11 +487,14 @@ class ScheduleDetailsWidget extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Đánh giá",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
+                                Text(
+                                  "Đánh giá",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.push(
@@ -505,26 +522,12 @@ class ScheduleDetailsWidget extends StatelessWidget {
       ),
     );
   }
-
-  // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
-  String k_m_b_generator(num) {
-    if (num > 999 && num < 99999) {
-      return "${(num / 1000).toStringAsFixed(1)} K";
-    } else if (num > 99999 && num < 999999) {
-      return "${(num / 1000).toStringAsFixed(0)} K";
-    } else if (num > 999999 && num < 999999999) {
-      return "${(num / 1000000).toStringAsFixed(1)} M";
-    } else if (num > 999999999) {
-      return "${(num / 1000000000).toStringAsFixed(1)} B";
-    } else {
-      return num.toString();
-    }
-  }
 }
 
 class CreateIcons extends StatelessWidget {
   final Widget child;
   final Function()? onTap;
+
   const CreateIcons({
     Key? key,
     required this.child,

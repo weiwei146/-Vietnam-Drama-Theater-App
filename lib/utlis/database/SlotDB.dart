@@ -5,13 +5,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:namer_app/screen/booking/BookingScreen.dart';
 
 class SlotDB {
-    static String generateRandomID(int length) {
-      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      Random rand = Random();
-      return List.generate(length, (index) => charset[rand.nextInt(charset.length)]).join();
-    }
+  static String generateRandomID(int length) {
+    const charset =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    Random rand = Random();
+    return List.generate(
+        length, (index) => charset[rand.nextInt(charset.length)]).join();
+  }
 
-    static Set<SeatNumber> getSlotsByMovieID(String id) {
+  static Set<SeatNumber> getSlotsByMovieID(String id) {
     Set<SeatNumber> slots = Set();
     final db = FirebaseFirestore.instance;
     db.collection("slots").doc(id).get().then(
@@ -28,8 +30,9 @@ class SlotDB {
     return slots;
   }
 
-  static Future<bool> updateSlots(String id, Set<SeatNumber> slots, String userID) async{
-      print(userID);
+  static Future<bool> updateSlots(
+      String id, Set<SeatNumber> slots, String userID) async {
+    print(userID);
 
     final db = FirebaseFirestore.instance;
 
@@ -43,21 +46,16 @@ class SlotDB {
           }
         };
 
-        DocumentSnapshot doc = await FirebaseFirestore.instance.collection("slots").doc(id).get();
+        DocumentSnapshot doc =
+            await FirebaseFirestore.instance.collection("slots").doc(id).get();
         if (doc.exists) {
-          db.collection("slots")
-              .doc(id)
-              .update(slotData)
-              .catchError((e) {
+          db.collection("slots").doc(id).update(slotData).catchError((e) {
             print("Error writing document: $e");
             throw e; // Re-throw the error to be caught by the outer try-catch
           });
         } else {
           // Document does not exist, create it
-          db.collection("slots")
-              .doc(id)
-              .set(slotData)
-              .catchError((e) {
+          db.collection("slots").doc(id).set(slotData).catchError((e) {
             print("Error writing document: $e");
             throw e; // Re-throw the error to be caught by the outer try-catch
           });
@@ -69,7 +67,8 @@ class SlotDB {
     }
   }
 
-  static List<List<SeatState>> generateListState(int rows, int cols, Set<SeatNumber> soldSeats) {
+  static List<List<SeatState>> generateListState(
+      int rows, int cols, Set<SeatNumber> soldSeats) {
     List<List<SeatState>> currentSeatsState = List.generate(
       rows,
       (_) => List.generate(
@@ -82,5 +81,29 @@ class SlotDB {
           [soldSeats.elementAt(i).colI] = SeatState.sold;
     }
     return currentSeatsState;
+  }
+
+  static Future<Set<SeatNumber>> getBookedSeatsByUser(String userID) async {
+    Set<SeatNumber> bookedSeats = {};
+    final db = FirebaseFirestore.instance;
+    try {
+      QuerySnapshot snapshot = await db.collection("slots").get();
+      for (var doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>?;
+        data?.forEach((key, value) {
+          print(value);
+          print(userID);
+          if (value['userID'] == userID) {
+            SeatNumber seat =
+                SeatNumber(rowI: value['row'], colI: value['col']);
+            bookedSeats.add(seat);
+          }
+        });
+      }
+      print('Booked Seats: $bookedSeats');
+    } catch (e) {
+      print("Error fetching booked seats: $e");
+    }
+    return bookedSeats;
   }
 }
