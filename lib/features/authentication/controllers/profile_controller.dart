@@ -15,10 +15,16 @@ class ProfileController extends GetxController {
   var showNewPassword = false.obs;
   var showRetypePassword = false.obs;
 
+  getAuRepo() {
+    return _authRepo;
+  }
+
   getUserData() {
     final email = _authRepo.firebaseUser?.value?.email;
     if (email != null) {
+      _authRepo.updateSigninStatus(true);
       return _userRepo.getUserDetails(email);
+
     } else {
       Get.snackbar('Lỗi', 'Bạn phải đăng nhập để tiếp tục');
     }
@@ -27,6 +33,7 @@ class ProfileController extends GetxController {
   String getUserID() {
     final uid = _authRepo.firebaseUser?.value!.uid;
     if (uid != null) {
+      _authRepo.updateSigninStatus(true);
       return uid;
     } else {
       Get.snackbar('Lỗi', 'Bạn phải đăng nhập để tiếp tục');

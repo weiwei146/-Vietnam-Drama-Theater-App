@@ -41,7 +41,7 @@ class _CastListState extends State<CastList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(minHeight: 300, maxHeight: 320),
+      constraints: const BoxConstraints(minHeight: 200, maxHeight: 230),
       child: ListView(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -81,7 +81,7 @@ class _CastListState extends State<CastList> {
                                 child: CachedNetworkImage(
                                   imageUrl: castList[i].image!,
                                   fit: BoxFit.cover,
-                                  height: 200,
+                                  height: 150,
                                   width: 130,
                                 ),
                               )),
@@ -97,7 +97,6 @@ class _CastListState extends State<CastList> {
                                   fontWeight: FontWeight.w900),
                             ),
                           ),
-                          const SizedBox(height: 40),
                         ],
                       ),
                     ),

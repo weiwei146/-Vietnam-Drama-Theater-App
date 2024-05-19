@@ -28,10 +28,11 @@ class SlotDB {
     return slots;
   }
 
-  static bool updateSlots(String id, Set<SeatNumber> slots, String userID) {
+  static Future<bool> updateSlots(String id, Set<SeatNumber> slots, String userID) async{
       print(userID);
 
     final db = FirebaseFirestore.instance;
+
     try {
       for (var slot in slots) {
         final slotData = <String, dynamic>{
@@ -42,13 +43,25 @@ class SlotDB {
           }
         };
 
-        db.collection("slots")
-          .doc(id)
-          .update(slotData)
-          .catchError((e) {
-        print("Error writing document: $e");
-          throw e; // Re-throw the error to be caught by the outer try-catch
-        });
+        DocumentSnapshot doc = await FirebaseFirestore.instance.collection("slots").doc(id).get();
+        if (doc.exists) {
+          db.collection("slots")
+              .doc(id)
+              .update(slotData)
+              .catchError((e) {
+            print("Error writing document: $e");
+            throw e; // Re-throw the error to be caught by the outer try-catch
+          });
+        } else {
+          // Document does not exist, create it
+          db.collection("slots")
+              .doc(id)
+              .set(slotData)
+              .catchError((e) {
+            print("Error writing document: $e");
+            throw e; // Re-throw the error to be caught by the outer try-catch
+          });
+        }
       }
       return true; // Return true if all updates are successful
     } catch (e) {

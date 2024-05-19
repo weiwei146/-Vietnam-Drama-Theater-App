@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +13,7 @@ import 'package:namer_app/utlis/database/SlotDB.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../features/authentication/controllers/profile_controller.dart';
 import 'BottomInfoSheet.dart';
 import 'CastList.dart';
 import '../../review/review.dart';
@@ -30,12 +33,49 @@ class ScheduleDetails extends StatefulWidget {
 
 class _ScheduleDetailsState extends State<ScheduleDetails> {
   late Set<SeatNumber> soldSeat;
+  final controller = Get.put(ProfileController());
   @override
   void initState() {
     super.initState();
     soldSeat = SlotDB.getSlotsByMovieID(widget.schedule.id!);
   }
-  
+  OverlayEntry? _overlayEntry;
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        left: 32,
+        right: 32,
+        bottom: MediaQuery.of(context).size.height/2 - 40, // Adjust the position above the button
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            height: 80,
+            decoration: BoxDecoration(
+              color: Color(0xffA12830).withOpacity(0.8),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(
+              child: Text(
+              'Vui lòng đăng nhập!',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+              textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showSnackBar() {
+    _overlayEntry = _createOverlayEntry();
+    Overlay.of(context)?.insert(_overlayEntry!);
+    Future.delayed(Duration(seconds: 3), () {
+      _overlayEntry?.remove();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -59,10 +99,18 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                 backgroundColor: MaterialStateProperty.all<Color>(Color(0xffA12830)),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BookingScreen(context: context, soldSeats: soldSeat, title: widget.schedule.title!, scheduleID: widget.schedule.id!,)),
-                );
+                if (!controller.getAuRepo().isSignin.value) {
+                  _showSnackBar();
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        BookingScreen(context: context,
+                          soldSeats: soldSeat,
+                          title: widget.schedule.title!,
+                          scheduleID: widget.schedule.id!,)),
+                  );
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -410,7 +458,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                         children: [
                           const SizedBox(height: 20),
                           Padding(
-                            padding: const EdgeInsets.all(14.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Text("Diễn viên",
                                 style: TextStyle(
                                     color: Colors.black,
@@ -419,9 +467,9 @@ class ScheduleDetailsWidget extends StatelessWidget {
                           ),
                           CastList(
                             castListString: schedule.cast,
-                          const SizedBox(height: 20),
+                          ),
                           Padding(
-                            padding: const EdgeInsets.all(14.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -445,6 +493,7 @@ class ScheduleDetailsWidget extends StatelessWidget {
                               ],
                             ),
                           ),
+                          const SizedBox(height: 60),
                         ],
                       ),
                   ],

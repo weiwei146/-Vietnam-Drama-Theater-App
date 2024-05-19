@@ -12,7 +12,12 @@ class AuthenticationRepository extends GetxController {
 
   //Var
   final _auth = FirebaseAuth.instance;
+  var isSignin = false.obs;
   Rx<User?>? firebaseUser;
+
+  void updateSigninStatus(bool status) {
+    isSignin.value = status;
+  }
 
   @override
   void onReady() {
@@ -28,6 +33,7 @@ class AuthenticationRepository extends GetxController {
         email: email,
         password: password,
       );
+      isSignin = true.obs;
       return true;
     } on FirebaseAuthException catch (e) {
       final ex = EmailAndPasswordFailure.fromCode(e.code);
@@ -71,9 +77,10 @@ class AuthenticationRepository extends GetxController {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-
+      isSignin = true.obs;
       // Once signed in, return the UserCredential
       return await FirebaseAuth.instance.signInWithCredential(credential);
+
     } on FirebaseAuthException catch (e) {
       final ex = EmailAndPasswordFailure.fromCode(e.code);
       throw ex.message;
@@ -95,6 +102,7 @@ class AuthenticationRepository extends GetxController {
         email: email,
         password: password,
       );
+      isSignin = true.obs;
     } on FirebaseAuthException catch (e) {
       final ex = EmailAndPasswordFailure.fromCode(e.code);
       if (kDebugMode) {
@@ -120,5 +128,6 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     await _auth.signOut();
+    isSignin = false.obs;
   }
 }

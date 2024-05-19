@@ -45,8 +45,8 @@ class _InformationPaymentState extends State<InformationPayment> {
     );
   }
 
-  void updateSlots() {
-    if(SlotDB.updateSlots(widget.id, widget.selectedSeats, controller.getUserID())) {
+  void updateSlots() async {
+    if(await SlotDB.updateSlots(widget.id, widget.selectedSeats, controller.getUserID())) {
       _showPaymentSuccessMessage();
       Future.delayed(Duration(seconds: 2), () {
         Navigator.pop(context);
