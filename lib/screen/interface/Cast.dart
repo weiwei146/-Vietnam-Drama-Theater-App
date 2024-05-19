@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CastFields {
-  static final List<String> values = [
+  static final List<dynamic> values = [
     /// Add all fields
-    id, name, birthday, gender, overview, image, titles
+    id, name, birthday, gender, image, titles
   ];
   static const String id = 'id';
   static const String name = 'name';
   static const String birthday = 'birthday';
   static const String gender = 'gender';
-  static const String overview = 'overview';
   static const String image = 'image';
   static const String titles = 'titles';
 }
@@ -25,7 +26,6 @@ class Cast  {
     this.name,
     this.birthday,
     this.gender,
-    this.overview,
     this.image,
     this.titles
   }) ;
@@ -34,25 +34,22 @@ class Cast  {
   final String? name;
   final String? birthday;
   final String? gender;
-  final String? overview;
   final String? image;
-  final List<String>? titles;
+  final List<dynamic>? titles;
 
   factory Cast.fromJson(Map<String, dynamic> json) {
     final String? id = json['id'];
     final String? name = json['name'];
     final String? birthday = json['birthday'];
     final String? gender = json['gender'];
-    final String? overview = json['overview'];
     final String? image = json['image'];
-    final List<String>? titles = json['titles'];
+    final List<dynamic>? titles = json['titles'];
 
     return Cast(
       id: id,
       name: name,
       birthday: birthday,
       gender: gender,
-      overview: overview,
       image: image,
       titles: titles,
     );
@@ -62,16 +59,14 @@ class Cast  {
     final String? name,
     final String? birthday,
     final String? gender,
-    final String? overview,
     final String? image,
-    final List<String>? titles,
+    final List<dynamic>? titles,
   }) =>
       Cast(
         id: id ?? this.id,
         name: name ?? this.name,
         birthday: birthday ?? this.birthday,
         gender: gender ?? this.gender,
-        overview: overview ?? this.overview,
         image: image ?? this.image,
         titles: titles ?? this.titles,
       );
@@ -80,4 +75,15 @@ class Cast  {
     CastFields.id: id,
   };
 
+
+  factory Cast.fromDocument(DocumentSnapshot doc) {
+    return Cast(
+        id: doc.id,
+        name: doc['name'],
+        titles: doc?['titles'] is Iterable ? List.from(doc?['titles']) : null,
+        birthday: doc['birthday'],
+        image: doc['image'],
+        gender: doc['gender']
+    );
+  }
 }

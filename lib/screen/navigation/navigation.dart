@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/screen/introduction/home.dart';
 import 'package:namer_app/screen/library/library.dart';
 import 'package:namer_app/screen/new/new.dart';
-import 'package:namer_app/screen/schedule/schedule.dart';
+import 'package:namer_app/screen/schedule/ScheduleInfor.dart';
 import 'package:namer_app/screen/setting/profile/settings.dart';
 
 class Navigation extends StatefulWidget {
@@ -16,7 +16,7 @@ class NavigationState extends State<Navigation> {
 
   static List<WidgetBuilder> _widgetOptions = <WidgetBuilder>[
     (context) => Home(),
-    (context) => Schedule(),
+    (context) => ScheduleInfor(),
     (context) => LibraryScreen(),
     (context) => NewScreen(),
     (context) => Settings(),

@@ -1,4 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
+DateFormat inputFormat = DateFormat("hh:mm a, dd/MM/yyyy");
+
 class ScheduleFields {
   static final List<String> values = [
     /// Add all fields
@@ -95,7 +100,7 @@ class Schedule  {
     final DateTime? released_on,
     final String? length,
     final String? overview,
-    final List<dynamic>? cast,
+    final List<String>? cast,
     final String? place,
     final String? webURL,
   }) =>
@@ -124,9 +129,26 @@ class Schedule  {
     ScheduleFields.released_on: released_on,
     ScheduleFields.length: length,
     ScheduleFields.overview: overview,
-    ScheduleFields.cast: cast.toString(),
+    ScheduleFields.cast: cast,
     ScheduleFields.place: place,
     ScheduleFields.webURL: webURL,
   };
+
+  factory Schedule.fromDocument(DocumentSnapshot doc) {
+    return Schedule(
+        id: doc.id,
+        backdrop: doc['backdrop'],
+        director: doc['director'],
+        genres: doc['genres'],
+        title: doc['title'],
+        poster: doc['poster'],
+        released_on: inputFormat.parse(doc['released_on']),
+        length: doc['length'],
+        overview: doc['overview'],
+        cast: doc['cast'],
+        place: doc['place'],
+        webURL: doc['webURL'] ?? ''
+    );
+  }
 
 }
