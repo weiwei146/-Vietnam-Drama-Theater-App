@@ -16,4 +16,8 @@ class SettingsController extends GetxController {
       return null;
     }
   }
+
+  Future<String?> getCurrentUserID() async {
+    return _authRepo.firebaseUser?.value?.uid;
+  }
 }

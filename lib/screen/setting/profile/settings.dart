@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:namer_app/constants/sizes.dart';
-import 'package:namer_app/features/authentication/controllers/settings_controller.dart';
+import 'package:namer_app/features/authentication/controllers/profile_controller.dart';
 import 'package:namer_app/features/authentication/models/user_model.dart';
 import 'package:namer_app/screen/setting/app_info/payment_info_screen.dart';
 import 'package:namer_app/screen/setting/app_info/system_settings.dart';
 import 'package:namer_app/screen/setting/profile/profile.dart';
+import 'package:namer_app/screen/setting/profile/seatBooked.dart'; // Ensure this import is correct
 import 'package:namer_app/screen/setting/widget/profile_widget.dart';
 
 import '../../../constants/image_strings.dart';
@@ -23,9 +24,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  final SettingsController _settingsController = Get.put(SettingsController());
+  final controller = Get.put(ProfileController());
   Future<UserModel?>? _futureUserData;
-
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,7 @@ class _SettingsState extends State<Settings> {
 
   void _refreshUserData() {
     setState(() {
-      _futureUserData = _settingsController.getUserData();
+      _futureUserData = controller.getUserData();
     });
   }
 
@@ -52,7 +52,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent, // Set the background color to red
+        backgroundColor: Colors.redAccent,
         title: Text(
           "Cài đặt",
           style: Theme.of(context).textTheme.titleMedium!,
@@ -276,11 +276,23 @@ class _SettingsState extends State<Settings> {
                 Column(
                   children: [
                     ProfileMenuWidget(
-                      title: "Xem hồ sơ",
+                      title: "Đơn hàng thành công",
                       icon: LineAwesomeIcons.cog,
-                      onPress: () {
-                        Get.to(() => ProfileScreen(didPop: () {}))!
-                            .then((_) => _refreshUserData());
+                      onPress: () async {
+                        if (user.id != null && user.id!.isNotEmpty) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserBookedSeatsScreen(
+                                  userID: controller.getUserID()),
+                            ),
+                          );
+                        } else {
+                          // Handle the case when user ID is null or empty
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('User ID is not available')),
+                          );
+                        }
                       },
                     ),
                     ProfileMenuWidget(
