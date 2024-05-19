@@ -11,10 +11,10 @@ import 'BottomInfoSheet.dart';
 import 'ScheduleDetails.dart';
 
 class CastInFoScreen extends StatefulWidget {
-  final String id;
+  final Cast cast;
   const CastInFoScreen({
     Key? key,
-    required this.id,
+    required this.cast,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,12 @@ class CastInFoScreen extends StatefulWidget {
 }
 
 class _CastInFoScreenState extends State<CastInFoScreen> {
-  late Cast info = Cast();
+  late Cast info;
+  @override
+  void initState() {
+    super.initState();
+    info = widget.cast;
+  }
   @override
   Widget build(BuildContext context) {
     return CastScreenWidget(info: info);
@@ -73,7 +78,7 @@ class CastScreenWidget extends StatelessWidget {
                               onTap: () => Navigator.pop(context),
                               child: const Icon(
                                 CupertinoIcons.back,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                             CreateIcons(
@@ -98,7 +103,7 @@ class CastScreenWidget extends StatelessWidget {
                                             height: 5,
                                             width: 100,
                                             decoration: BoxDecoration(
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                             ),
@@ -120,7 +125,7 @@ class CastScreenWidget extends StatelessWidget {
                                                 title: Text(
                                                   "Mở trong trình duyệt",
                                                   style: TextStyle(
-                                                      color: Colors.white),
+                                                      color: Colors.black),
                                                 ),
                                               ),
                                               Divider(
@@ -138,7 +143,7 @@ class CastScreenWidget extends StatelessWidget {
                               },
                               child: const Icon(
                                 CupertinoIcons.ellipsis,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -157,7 +162,7 @@ class CastScreenWidget extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 34,
                                 shadows: kElevationToShadow[8],
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -178,9 +183,9 @@ class CastScreenWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Personal Info",
+                              "Thông tin cá nhân",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 22),
+                                  TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 10),
                             Row(
@@ -197,15 +202,14 @@ class CastScreenWidget extends StatelessWidget {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Known for",
+                                          "Ngày sinh",
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
+                                              color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                                         ),
-                                        // Text(info.knownfor,
-                                        //     style: TextStyle(
-                                        //       color: Colors.white,
-                                        //     )),
+                                        Text(info.birthday!,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            )),
                                       ],
                                     ),
                                   ),
@@ -218,14 +222,14 @@ class CastScreenWidget extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Gender",
+                                        "Giới tính",
                                         style: TextStyle(
-                                            color: Colors.white, fontSize: 16),
+                                            color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                                       ),
                                       Text(
                                         info.gender!,
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ],
@@ -234,27 +238,11 @@ class CastScreenWidget extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Birthday",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16),
-                                ),
-                                Text(info.birthday!,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    )),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
                     ),
-                    if (info.overview != "")
+                    if (info.titles!.length > 0)
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 12),
@@ -263,24 +251,26 @@ class CastScreenWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Biography",
+                              "Các tác phẩm",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black, fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(height: 10),
-                            ReadMoreText(
-                              info.overview!,
-                              trimLines: 10,
-                              colorClickableText: Colors.pink,
-                              trimMode: TrimMode.Line,
-                              trimCollapsedText: 'Show more',
-                              trimExpandedText: 'Show less',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                              moreStyle: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            Table(
+                              children: info.titles!.map((item) {
+                                return TableRow(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
                             )
                           ],
                         ),

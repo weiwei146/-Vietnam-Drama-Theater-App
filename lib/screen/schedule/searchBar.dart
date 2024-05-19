@@ -5,7 +5,6 @@ import 'package:namer_app/screen/interface/Schedule.dart';
 import 'dart:ui';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:namer_app/screen/schedule/ScheduleCard.dart';
-import 'package:namer_app/utlis/database/ScheduleDB.dart';
 
 
 final today = DateUtils.dateOnly(DateTime.now());
@@ -13,10 +12,12 @@ final today = DateUtils.dateOnly(DateTime.now());
 
 class CustomSearchBar extends StatefulWidget {
   final TextEditingController controller;
+  final List<Schedule> allItems;
 
   const CustomSearchBar({
     Key? key,
     required this.controller,
+    required this.allItems,
   }) : super(key: key);
 
   @override
@@ -60,7 +61,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   void initState () {
     super.initState();
     searchController.addListener(queryListener);
-    allItems = ScheduleDB.getAllSchedules();
+    allItems = widget.allItems;
     // loadSchedules();
   }
 
@@ -88,16 +89,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
 
 
-
   @override
   Widget build(BuildContext context) {
-    return allItems.isEmpty
-        ? Scaffold(
-          appBar: AppBar(),
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-    ) :Stack(
+    return Stack(
       children: [
         Image.network(
           'https://i.pinimg.com/564x/6b/66/51/6b6651cb9ca25ae29beea9502381f349.jpg', // Replace with your image URL

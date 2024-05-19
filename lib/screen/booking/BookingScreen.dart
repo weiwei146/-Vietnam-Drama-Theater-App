@@ -13,12 +13,14 @@ import '../schedule/scheduleDetails/ScheduleDetails.dart';
 class BookingScreen extends StatefulWidget {
   final BuildContext context;
   final String title;
+  final String scheduleID;
   final Set<SeatNumber> soldSeats;
   const BookingScreen({
     Key? key,
     required this.context,
     required this.title,
     required this.soldSeats,
+    required this.scheduleID,
   }) : super(key: key);
 
   @override
@@ -285,7 +287,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => PaymentScreen( selectedSeats: selectedSeats.toString(), payment: payment, title: title,)),
+                          MaterialPageRoute(builder: (context) => PaymentScreen( selectedSeats: selectedSeats.toString(), payment: payment, title: title, slots: selectedSeats, scheduleID: widget.scheduleID,)),
                         );
                       },
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/introduction/videoPlayerController.dart';
 import 'package:namer_app/screen/new/new.dart';
-import 'package:namer_app/screen/schedule/schedule.dart';
+import 'package:namer_app/screen/schedule/ScheduleInfor.dart';
 
 class Introduction extends StatelessWidget {
   const Introduction({super.key});
@@ -22,7 +22,7 @@ class Introduction extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Schedule()), // Thay thế 'LibraryPage()' bằng tên của trang thư viện của bạn
+                    MaterialPageRoute(builder: (context) => ScheduleInfor()), // Thay thế 'LibraryPage()' bằng tên của trang thư viện của bạn
                   );
                 },
                 child: Center(
@@ -128,7 +128,7 @@ class Introduction extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Schedule()), // Thay thế 'LibraryPage()' bằng tên của trang thư viện của bạn
+                    MaterialPageRoute(builder: (context) => ScheduleInfor()), // Thay thế 'LibraryPage()' bằng tên của trang thư viện của bạn
                   );
                 },
                 child: Center(

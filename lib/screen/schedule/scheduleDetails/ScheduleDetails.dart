@@ -1,18 +1,18 @@
-// import 'dart:html';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:expandable_group/expandable_group_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:namer_app/screen/interface/Schedule.dart';
 import 'package:intl/intl.dart';
+import 'package:namer_app/utlis/database/SlotDB.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../review/review.dart';
-import '../../../utlis/animation.dart';
+
 import 'BottomInfoSheet.dart';
-import 'copyLink.dart';
+import 'CastList.dart';
 
 class ScheduleDetails extends StatefulWidget {
   final Schedule schedule;
@@ -28,14 +28,18 @@ class ScheduleDetails extends StatefulWidget {
 }
 
 class _ScheduleDetailsState extends State<ScheduleDetails> {
-
+  late Set<SeatNumber> soldSeat;
+  @override
+  void initState() {
+    super.initState();
+    soldSeat = SlotDB.getSlotsByMovieID(widget.schedule.id!);
+  }
   @override
   Widget build(BuildContext context) {
-    print(widget.schedule);
     return Stack(
       children: [
         // Your main content goes here
-        MovieDetailScreenWidget(
+        ScheduleDetailsWidget(
             schedule: widget.schedule
         ),
         // Floating bottom widget
@@ -45,15 +49,18 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
           bottom: 24,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.red, // Background color of the container
+              color: Color(0xffA12830),// Background color of the container
               borderRadius: BorderRadius.circular(16.0), // Rounded corners for the top side only
             ),
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                backgroundColor: MaterialStateProperty.all<Color>(Color(0xffA12830)),
               ),
               onPressed: () {
-                // Add your button's functionality here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookingScreen(context: context, soldSeats: soldSeat, title: widget.schedule.title!, scheduleID: widget.schedule.id!,)),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -75,9 +82,9 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
   }
 }
 
-class MovieDetailScreenWidget extends StatelessWidget {
+class ScheduleDetailsWidget extends StatelessWidget {
   final Schedule schedule;
-  const MovieDetailScreenWidget({
+  const ScheduleDetailsWidget({
     Key? key,
     required this.schedule,
   }) : super(key: key);
@@ -381,33 +388,8 @@ class MovieDetailScreenWidget extends StatelessWidget {
                             child: Text("Diễn viên",
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold)),
                           ),
-                          // CastList(
-                          //   castList: castList,
-                          // ),
-                          const SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.all(14.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Đánh giá",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ReviewScreen(dramaId: schedule.id.toString()),
-                                      ),
-                                    );
-                                  },
-                                  child: Text("Xem đánh giá"),
-                                ),
-                              ],
-                            ),
+                          CastList(
+                            castListString: schedule.cast,
                           ),
                         ],
                       ),

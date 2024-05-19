@@ -24,6 +24,16 @@ class ProfileController extends GetxController {
     }
   }
 
+  String getUserID() {
+    final uid = _authRepo.firebaseUser?.value!.uid;
+    if (uid != null) {
+      return uid;
+    } else {
+      Get.snackbar('Lỗi', 'Bạn phải đăng nhập để tiếp tục');
+      return '';
+    }
+  }
+
   String getProviderId() {
     final info = FirebaseAuth.instance.currentUser!.providerData.first;
     return info.providerId;

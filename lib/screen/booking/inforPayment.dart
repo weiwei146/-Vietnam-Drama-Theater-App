@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:namer_app/screen/booking/BookingScreen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../features/authentication/controllers/profile_controller.dart';
+import '../../utlis/database/SlotDB.dart';
 
 class InformationPayment extends StatefulWidget {
   final bool typePayment;
-  const InformationPayment({Key? key, required this.typePayment})  : super(key: key);
+  final String id;
+  final Set<SeatNumber> selectedSeats;
+  final int payment;
+  const InformationPayment({Key? key, required this.typePayment, required this.id, required this.selectedSeats, required this.payment})  : super(key: key);
+
 
   @override
   State<InformationPayment> createState() => _InformationPaymentState();
@@ -15,6 +25,7 @@ class _InformationPaymentState extends State<InformationPayment> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _cardNumberController = TextEditingController();
   TextEditingController _expiryDateController = TextEditingController();
+  final controller = Get.put(ProfileController());
 
   void _showPaymentSuccessMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -23,6 +34,27 @@ class _InformationPaymentState extends State<InformationPayment> {
         duration: Duration(seconds: 2),
       ),
     );
+  }
+
+  void _showPaymentFailMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Thanh toán không thành công!'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void updateSlots() {
+    if(SlotDB.updateSlots(widget.id, widget.selectedSeats, controller.getUserID())) {
+      _showPaymentSuccessMessage();
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.pop(context);
+      });
+    } else {
+      _showPaymentFailMessage();
+    }
+
   }
 
   @override
@@ -59,10 +91,7 @@ class _InformationPaymentState extends State<InformationPayment> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      _showPaymentSuccessMessage();
-                      Future.delayed(Duration(seconds: 2), () {
-                        Navigator.pop(context);
-                      });
+                      updateSlots();
                     },
                     child: Text('Xác nhận'),
                   ),
