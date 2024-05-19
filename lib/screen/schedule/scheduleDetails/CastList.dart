@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utlis/animation.dart';
 import '../../interface/Cast.dart';
@@ -27,15 +26,14 @@ class CastList extends StatelessWidget {
             if (castList[i].image != "")
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                 child: InkWell(
                   onTap: () {
                     pushNewScreen(
-                      context,
-                      CastInFoScreen(
-                        id: castList[i].id!,
-                      )
-                    );
+                        context,
+                        CastInFoScreen(
+                          id: castList[i].id!,
+                        ));
                   },
                   child: Tooltip(
                     message: "${castList[i].name}",

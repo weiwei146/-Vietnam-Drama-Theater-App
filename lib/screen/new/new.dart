@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'dart:ui'; // Import dart:ui for BackdropFilter
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
 import '../interface/SizeConfig.dart';
 // Import NewsCard (assuming you have this defined somewhere in your project)
 import 'NewsCard.dart';
@@ -12,7 +13,8 @@ class NewsItem {
   final String imageUrl;
   final String content;
 
-  NewsItem({required this.title, required this.imageUrl, required this.content});
+  NewsItem(
+      {required this.title, required this.imageUrl, required this.content});
 
   factory NewsItem.fromDocument(DocumentSnapshot doc) {
     return NewsItem(
@@ -79,24 +81,23 @@ class _NewScreenState extends State<NewScreen> {
                 title: Text(
                   'Tin tức sự kiện',
                   style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                  ),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
               Expanded(
                 child: newsItems.isEmpty
                     ? Center(child: CircularProgressIndicator())
                     : ListView.builder(
-                  itemCount: newsItems.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: NewsCard(newsItem: newsItems[index]),
-                    );
-                  },
-                ),
+                        itemCount: newsItems.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: NewsCard(newsItem: newsItems[index]),
+                          );
+                        },
+                      ),
               ),
             ],
           ),
