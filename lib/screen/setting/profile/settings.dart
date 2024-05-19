@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:namer_app/constants/sizes.dart';
-import 'package:namer_app/features/authentication/controllers/settings_controller.dart';
+import 'package:namer_app/features/authentication/controllers/profile_controller.dart';
 import 'package:namer_app/features/authentication/models/user_model.dart';
 import 'package:namer_app/screen/setting/app_info/payment_info_screen.dart';
 import 'package:namer_app/screen/setting/app_info/system_settings.dart';
@@ -24,9 +24,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  final SettingsController _settingsController = Get.put(SettingsController());
+  final controller = Get.put(ProfileController());
   Future<UserModel?>? _futureUserData;
-
   @override
   void initState() {
     super.initState();
@@ -35,7 +34,7 @@ class _SettingsState extends State<Settings> {
 
   void _refreshUserData() {
     setState(() {
-      _futureUserData = _settingsController.getUserData();
+      _futureUserData = controller.getUserData();
     });
   }
 
@@ -279,13 +278,13 @@ class _SettingsState extends State<Settings> {
                     ProfileMenuWidget(
                       title: "Đơn hàng thành công",
                       icon: LineAwesomeIcons.cog,
-                      onPress: () {
+                      onPress: () async {
                         if (user.id != null && user.id!.isNotEmpty) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  UserBookedSeatsScreen(userID: user.id!),
+                              builder: (context) => UserBookedSeatsScreen(
+                                  userID: controller.getUserID()),
                             ),
                           );
                         } else {

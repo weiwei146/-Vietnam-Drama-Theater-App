@@ -83,24 +83,41 @@ class SlotDB {
     return currentSeatsState;
   }
 
-  static Future<Set<SeatNumber>> getBookedSeatsByUser(String userID) async {
-    Set<SeatNumber> bookedSeats = {};
-    final db = FirebaseFirestore.instance;
+  Future<Set<Map<String, SeatNumber>>> getBookedSeatsByUser(
+      String userID) async {
+    Set<Map<String, SeatNumber>> bookedSeats = {};
+    final _db = FirebaseFirestore.instance;
     try {
-      QuerySnapshot snapshot = await db.collection("slots").get();
+      QuerySnapshot snapshot = await _db.collection("slots").get();
       for (var doc in snapshot.docs) {
-        final data = doc.data() as Map<String, dynamic>?;
-        data?.forEach((key, value) {
-          print(value);
-          print(userID);
-          if (value['userID'] == userID) {
+        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+        data?.forEach((key, value) async {
+          print(key);
+          if (value != null && value['userID'] == userID) {
             SeatNumber seat =
                 SeatNumber(rowI: value['row'], colI: value['col']);
-            bookedSeats.add(seat);
+            try {
+              DocumentSnapshot<Map<String, dynamic>> snapshot =
+                  await _db.collection("schedules").doc(key).get();
+              if (snapshot.exists) {
+                Map<String, dynamic>? data = snapshot.data();
+                print(data);
+                if (data != null && data.containsKey('title')) {
+                  String title = data['title'];
+                } else {
+                  print('Title field not found in the document');
+                }
+              } else {
+                print('Document does not exist');
+              }
+            } catch (e) {
+              print("Error fetching document: $e");
+            }
+            // bookedSeats.add(seat);
           }
+          print(bookedSeats);
         });
       }
-      print('Booked Seats: $bookedSeats');
     } catch (e) {
       print("Error fetching booked seats: $e");
     }
